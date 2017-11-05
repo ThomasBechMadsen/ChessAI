@@ -1,15 +1,19 @@
+import java.util.ArrayList;
+
+import pieces.Piece;
 
 public class Program {
 
 	
+	
 	public static void main(String[] args) {
 		//Initialize board
+		//TODO implement board: Board board = new Board();
+		AI ai = new AI(board);
 		
-		while(true){
-			//Get board
-			//Evaluate board
-			//Choose next move
-			//Move
+		while(true){ // Game loop
+			ai.playTurn();
+			//Wait for opponent
 		}
 	}
 
