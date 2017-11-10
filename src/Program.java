@@ -8,7 +8,7 @@ public class Program {
 	
 	public static void main(String[] args) {
 		//Initialize board
-		//TODO implement board: Board board = new Board();
+		Board board = new Board();
 		AI ai = new AI(board);
 		
 		while(true){ // Game loop

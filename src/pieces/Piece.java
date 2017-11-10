@@ -7,7 +7,6 @@ public abstract class Piece {
 	public boolean friendly;
 	protected int baseValue;
 	public int value;
-	public ArrayList<Position> moves;
 	
 	public Piece(boolean friendly){
 		this.friendly = friendly;
