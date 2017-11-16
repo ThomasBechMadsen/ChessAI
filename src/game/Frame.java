@@ -19,7 +19,7 @@ public class Frame extends JFrame{
 	public Frame(){
 		// Initialize the view 
 		setTitle("Skak Spil - Gruppe 3");
-		setSize(board.board[0].length*feltSize+100,board.board.length*feltSize+100);
+		setSize(board.getBoard()[0].length*feltSize+100,board.getBoard().length*feltSize+100);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -36,8 +36,8 @@ public class Frame extends JFrame{
 	}
 
 	void drawMap(){
-		for (int row = 0; row < board.board.length; row++){
-			for(int col = 0; col < board.board[0].length; col ++){
+		for (int row = 0; row < board.getBoard().length; row++){
+			for(int col = 0; col < board.getBoard()[0].length; col ++){
 				Color color = Color.white;
 				if(row%2 != 0){
 					if(col%2 != 0)
