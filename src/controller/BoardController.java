@@ -3,6 +3,8 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import Utility.Position;
+import game.Board;
 import pieces.Bishop;
 import pieces.King;
 import pieces.Knight;
@@ -15,83 +17,102 @@ import pieces.Type;
 public class BoardController {
 
 	public static BoardController Instance;
-	private boolean[][] allowedMoves;
+	private ArrayList<Position> allowedMoves;
 
 	public int[] enPassantMove = {-1,-1};
 
 	public List<Piece> activeChessPieces;
 
-	public Piece[][] chessPieces;
+	public Board board = new Board();
 	private Piece selectedPiece;
 	public boolean isWhiteTurn;
 
+	public BoardController(Piece[][] board){
+		Instance = this;
+		activeChessPieces = new ArrayList<Piece>();
+		this.board.setBoard(board);
+		isWhiteTurn = true;
+	}
 
 	public BoardController(){
 		Instance = this;
 		activeChessPieces = new ArrayList<Piece>();
-		chessPieces = new Piece[8][8];
 		isWhiteTurn = true;
-		//createNewBoard();
 	}
 
 	public void selectChessPiece(int x, int y){
-		if (chessPieces [x][y] == null){
+		// return if selected is outside board
+		if(x < 0 || x > 7 || y < 0 || y > 7)
+			return;
+		
+		// return if the player selects an empty position
+		if (board.getBoard() [x][y] == null){
 			System.out.println("pladsen er tom");
 			return;
 		}
-		if (chessPieces [x][y].friendly != isWhiteTurn){
+		
+		// return if the player selects the wrong color
+		if (board.getBoard() [x][y].isWhite != isWhiteTurn){
 			System.out.println("Det er modstanderens tur");
 			return;
 		}
-		allowedMoves = chessPieces [x][y].possibleMoves ();
-		for (int i = 0; i < 8; i++)
-			for (int j = 0; j < 8; j++)
-				if (allowedMoves [i][j]){
-					chessPieces[x][y].hasAtLeastOneMove = true;
-					break;
-				}
-		if (!chessPieces[x][y].hasAtLeastOneMove){
-			System.out.printf("%s(%d,%d) er valgt men har ingen mulige træk\n",chessPieces [x][y].getType(),y+1,x+1);
+		// get the possible moves for the chess piece
+		allowedMoves = board.getBoard()[x][y].possibleMoves();
+		
+		// return if the chesspiece moves is empty
+		if (allowedMoves.isEmpty()){
+			System.out.printf("%s(%d,%d) er valgt men har ingen mulige træk\n",board.getBoard() [x][y].getType(),y+1,x+1);
 			return;
 		}
-			
-		selectedPiece = chessPieces [x][y];
-		System.out.printf("%s(%d,%d) er markeret  \n", chessPieces [x][y].getType(), y+1, x+1 );
+		
+		selectedPiece = board.getBoard() [x][y];
+		System.out.printf("%s(%d,%d) er markeret  \n", board.getBoard() [x][y].getType(), y+1, x+1 );
+		
 	}
 	
 	public Piece getSelectedPiece(){
 		return selectedPiece;
 	}
 
-	
 	public boolean moveChessPiece(int x, int y){
-		
+		// if outside the board then return
 		if(x < 0 || x > 7 || y < 0 || y > 7){
 			System.out.println("Træk ikke muligt!\n");
 			return false;
 		}
-			
-		
-		else if ( selectedPiece != null && allowedMoves[x][y]) {
-			System.out.printf("%s(%d,%d) rykkes til (%d,%d)\n",selectedPiece.getType(),selectedPiece.currentY+1, selectedPiece.currentX+1,y+1,x+1);
-			Piece c = chessPieces [x][y];
-			if(c != null && c.friendly != isWhiteTurn){
 
-				//If the king is hit
-				if(c.type == Type.KING){
+		boolean moveAllowed = false ;
+		
+		// check if the move is allowed
+		if (selectedPiece == null )
+			return false;
+		
+		for(Position p : allowedMoves)
+			if(p.x == x && p.y == y)
+				moveAllowed = true;
+		
+		
+		if (moveAllowed){ //allowedMoves[x][y]) {
+			System.out.printf("%s(%d,%d) rykkes til (%d,%d)\n",selectedPiece.getType(),selectedPiece.currentY+1, selectedPiece.currentX+1,y+1,x+1);
+			Piece p = board.getBoard() [x][y];
+			// tjek hvis modstanderens brik
+			if(p != null && p.isWhite != isWhiteTurn){
+				//tjek hvis modstanderens brik er kongen
+				if(p.type == Type.KING){
 					// End the game
 					endGame();
-					
+					return false;
 				}
-				activeChessPieces.remove(c);
+				//fjern modstanderen brik
+				activeChessPieces.remove(p);
 			}
 
 			if (x == enPassantMove [0] && y == enPassantMove [1]) {
 				if (isWhiteTurn) 
-					c = chessPieces [x][ y - 1];
+					p = board.getBoard() [x][ y - 1];
  				else 
-					c = chessPieces [x][y + 1];
-				activeChessPieces.remove(c);
+					p = board.getBoard() [x][y + 1];
+				activeChessPieces.remove(p);
 			}
 
 			enPassantMove [0] = -1;
@@ -100,15 +121,15 @@ public class BoardController {
 			if (selectedPiece.type == Type.Pawn ) {
 				// Promotion rules
 				if (y == 7) { // if white pawn reach top replace with white Queen
-					activeChessPieces.remove(c);
-					chessPieces[selectedPiece.currentX][selectedPiece.currentY] = null;
+					activeChessPieces.remove(p);
+					board.getBoard()[selectedPiece.currentX][selectedPiece.currentY] = null;
 					spawnChessPiece ( x, y, new Queen(true));
-					selectedPiece = chessPieces [x][y];
+					selectedPiece = board.getBoard() [x][y];
 				} else if(y == 0){ // if black pawn reach top replace with black Queen
-					activeChessPieces.remove(c);
-					chessPieces[selectedPiece.currentX][selectedPiece.currentY] = null;
+					activeChessPieces.remove(p);
+					board.getBoard()[selectedPiece.currentX][selectedPiece.currentY] = null;
 					spawnChessPiece ( x, y, new Queen(false));
-					selectedPiece = chessPieces [x][y];
+					selectedPiece = board.getBoard()[x][y];
 				}
 
 				// En passant Rules
@@ -121,9 +142,9 @@ public class BoardController {
 				}
 			}
 
-			chessPieces [selectedPiece.currentX][ selectedPiece.currentY] = null;
+			board.getBoard() [selectedPiece.currentX][ selectedPiece.currentY] = null;
 			selectedPiece.setPosition (x, y);
-			chessPieces [x][y] = selectedPiece;
+			board.getBoard() [x][y] = selectedPiece;
 			isWhiteTurn = !isWhiteTurn;
 
 			selectedPiece = null;
@@ -136,39 +157,10 @@ public class BoardController {
 		}
 	}
 
-		
 	public void spawnChessPiece(int x, int y, Piece piece){
-		chessPieces [x][y] = piece;
-		chessPieces [x][y].setPosition (x, y);
+		board.getBoard() [x][y] = piece;
+		board.getBoard() [x][y].setPosition (x, y);
 		activeChessPieces.add(piece);
-	}
-
-	public void createNewBoard(){
-		//Generate friendly pieces
-		spawnChessPiece(0, 0, new Rook(true));
-		spawnChessPiece(1, 0, new Knight(true));
-		spawnChessPiece(2, 0, new Bishop(true));
-		spawnChessPiece(3, 0, new King(true));
-		spawnChessPiece(4, 0, new Queen(true));
-		spawnChessPiece(5, 0, new Bishop(true));
-		spawnChessPiece(6, 0, new Knight(true));
-		spawnChessPiece(7, 0, new Rook(true));
-		
-		//Generate enemy pieces
-		spawnChessPiece(0, 7, new Rook(false));
-		spawnChessPiece(1, 7, new Knight(false));
-		spawnChessPiece(2, 7, new Bishop(false));
-		spawnChessPiece(3, 7, new King(false));
-		spawnChessPiece(4, 7, new Queen(false));
-		spawnChessPiece(5, 7, new Bishop(false));
-		spawnChessPiece(6, 7, new Knight(false));
-		spawnChessPiece(7, 7, new Rook(false));
-		
-		//Generate pawns
-		for(int i = 0; i < 8; i++){
-			spawnChessPiece(i, 1, new Pawn(true));
-			spawnChessPiece(i, 6, new Pawn(false));
-		}
 	}
 	
 	private void endGame(){
@@ -177,28 +169,22 @@ public class BoardController {
 		}else{
 			System.out.println("Black Wins!");
 		}
-
-
-		for(Piece p : activeChessPieces)
-			activeChessPieces.remove(p);
-		
-		isWhiteTurn = true;
-		createNewBoard ();
+		activeChessPieces.removeAll(activeChessPieces);
 	}
 	
 	public void printBoard(){
-		for(int i = -1; i < chessPieces.length; i++){
+		for(int i = -1; i < board.getBoard().length; i++){
 			if(i>-1 && i<8)
 				System.out.printf("%d: ",(i+1));
-			for(int j = 0 ; j < chessPieces[0].length ; j++){
+			for(int j = 0 ; j < board.getBoard()[0].length ; j++){
 				if(i == -1)
 					System.out.printf("	%d	|  ",(j+1));
-				else if(chessPieces[j][i] != null && i>-1 && i < 8){
-					if(chessPieces[j][i].friendly)
+				else if(board.getBoard()[j][i] != null && i>-1 && i < 8){
+					if(board.getBoard()[j][i].isWhite)
 						System.out.print("W");
 					else
 						System.out.print("B");
-					System.out.printf("%s	|  ", chessPieces[j][i].type);
+					System.out.printf("%s	|  ", board.getBoard()[j][i].type);
 				}
 				else
 					System.out.print("------	|  ");

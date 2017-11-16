@@ -1,5 +1,9 @@
 package pieces;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Utility.Position;
 import controller.BoardController;
 
 public class Bishop extends Piece{
@@ -11,9 +15,9 @@ public class Bishop extends Piece{
 	}
 	
 	@Override
-	public boolean[][] possibleMoves(){
+	public ArrayList<Position> possibleMoves(){
 		
-		boolean[][] moves = new boolean[8][8];
+		ArrayList<Position> moves = new ArrayList<Position>() ;
 		Piece piece;
 		int x,y;
 
@@ -26,12 +30,12 @@ public class Bishop extends Piece{
 			if(x < 0 || y>= 8)
 				break;
 
-			piece = BoardController.Instance.chessPieces[x][y];
+			piece = BoardController.Instance.board.getBoard()[x][y];
 			if(piece == null)
-				moves [x][y] = true;
+				moves.add(new Position(x, y));
 			else{
-				if(friendly != piece.friendly)
-					moves[x][y] = true;
+				if(isWhite != piece.isWhite)
+					moves.add(new Position(x, y));
 				break;
 			}
 		}
@@ -45,12 +49,12 @@ public class Bishop extends Piece{
 			if(x >= 8 || y >= 8)
 				break;
 
-			piece = BoardController.Instance.chessPieces[x][y];
+			piece = BoardController.Instance.board.getBoard()[x][y];
 			if(piece == null)
-				moves [x][y] = true;
+				moves.add(new Position(x, y));
 			else{
-				if(friendly != piece.friendly)
-					moves[x][y] = true;
+				if(isWhite != piece.isWhite)
+					moves.add(new Position(x, y));
 					break;
 			}
 		}
@@ -64,12 +68,12 @@ public class Bishop extends Piece{
 			if(x < 0 || y < 0)
 				break;
 
-			piece = BoardController.Instance.chessPieces[x][y];
+			piece = BoardController.Instance.board.getBoard()[x][y];
 			if(piece == null)
-				moves [x][y] = true;
+				moves.add(new Position(x, y));
 			else{
-				if(friendly != piece.friendly)
-					moves[x][y] = true;
+				if(isWhite != piece.isWhite)
+					moves.add(new Position(x, y));
 				break;
 			}
 		}
@@ -82,12 +86,12 @@ public class Bishop extends Piece{
 			if(x >= 8 || y < 0)
 				break;
 
-			piece = BoardController.Instance.chessPieces[x][y];
+			piece = BoardController.Instance.board.getBoard()[x][y];
 			if(piece == null)
-				moves [x][y] = true;
+				moves.add(new Position(x, y));
 			else{
-				if(friendly != piece.friendly)
-					moves[x][y] = true;
+				if(isWhite != piece.isWhite)
+					moves.add(new Position(x, y));
 				break;
 			}
 		}

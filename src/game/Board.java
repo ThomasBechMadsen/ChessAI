@@ -1,12 +1,11 @@
 package game;
-import java.util.ArrayList;
-import java.util.List;
 
 import Utility.Position;
 import pieces.*;
 
 public class Board {
 	private Piece[][] board;
+	public boolean isWhiteTurn = true;
 	
 	public Piece[][] getBoard() {
 		return board;

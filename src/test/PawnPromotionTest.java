@@ -1,14 +1,8 @@
 package test;
 
 import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assume;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
 import controller.BoardController;
 import pieces.Bishop;
 import pieces.Pawn;
@@ -25,7 +19,7 @@ public class PawnPromotionTest {
 		b.spawnChessPiece(1, 1, new Pawn(false)); // sætter sort bonde i næst sidste række
 		b.spawnChessPiece(2, 7, new Bishop(false));
 		b.spawnChessPiece(2, 0, new Bishop(true));
-		
+		b.printBoard();
 	}
 
 	//Tester om hvid bonde bliver promotet og den gamle typen ændres
@@ -34,8 +28,9 @@ public class PawnPromotionTest {
 		//ryk hvid bonde frem
 		b.selectChessPiece(1, 6);
 		b.moveChessPiece(1, 7);
-		assertEquals(b.chessPieces[1][7].type, Type.Queen);
-		assertEquals(b.chessPieces[1][6], null);
+		assertEquals(b.board.getBoard()[1][7].type, Type.Queen);
+		assertEquals(b.board.getBoard()[1][6], null);
+		b.printBoard();
 	}
 	
 	@Test
@@ -45,8 +40,8 @@ public class PawnPromotionTest {
 		//ryk sort bonde frem
 		b.selectChessPiece(1, 1);
 		b.moveChessPiece(1, 0);
-		assertEquals(b.chessPieces[1][0].type, Type.Queen);
-		assertEquals(b.chessPieces[1][1], null);
+		assertEquals(b.board.getBoard()[1][0].type, Type.Queen);
+		assertEquals(b.board.getBoard()[1][1], null);
 	}
 	
 	@Test
@@ -55,8 +50,8 @@ public class PawnPromotionTest {
 		//slå hvid løbere
 		b.selectChessPiece(1, 6);
 		b.moveChessPiece(2, 7);
-		assertEquals(b.chessPieces[2][7].type, Type.Queen);
-		assertEquals(b.chessPieces[1][6], null);
+		assertEquals(b.board.getBoard()[2][7].type, Type.Queen);
+		assertEquals(b.board.getBoard()[1][6], null);
 	}
 	
 	@Test
@@ -66,8 +61,8 @@ public class PawnPromotionTest {
 		//slå hvid løbere
 		b.selectChessPiece(1, 1);
 		b.moveChessPiece(2, 0);
-		assertEquals(b.chessPieces[2][0].type, Type.Queen);
-		assertEquals(b.chessPieces[1][1], null);
+		assertEquals(b.board.getBoard()[2][0].type, Type.Queen);
+		assertEquals(b.board.getBoard()[1][1], null);
 	}
 	
 

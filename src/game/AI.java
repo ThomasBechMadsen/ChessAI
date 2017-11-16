@@ -60,7 +60,7 @@ public class AI {
 			for(int x = 0; x < 8; x++){
 				Piece p = board.getPieceAt(x, y);
 				if(p != null){
-					if(p.friendly){
+					if(p.isWhite){
 						score += p.getBaseValue();//Should be more complex later
 					}
 					else{
