@@ -10,7 +10,9 @@ import pieces.Knight;
 import pieces.Type;
 
 public class KnightMoveTest {
-	BoardController b ;
+	BoardController b;
+	int x, y, deltaX, deltaY;
+	
 	
 	
 	@Before
@@ -34,10 +36,10 @@ public class KnightMoveTest {
 	@Test
 	public void MoveUpLeft() {
 		b.selectChessPiece(3,4);
-		int x = b.getSelectedPiece().currentX;
-		int y = b.getSelectedPiece().currentY;
-		int deltaX = -1;
-		int deltaY = 2;
+		x = b.getSelectedPiece().currentX;
+		y = b.getSelectedPiece().currentY;
+		deltaX = -1;
+		deltaY = 2;
 		b.moveChessPiece(x+deltaX, y+deltaY);
 		b.printBoard();
 		assertEquals(b.board.getBoard()[x+deltaX][y+deltaY].getType(), Type.Knight);
@@ -47,10 +49,10 @@ public class KnightMoveTest {
 	@Test
 	public void MoveDownLeft() {
 		b.selectChessPiece(3,4);
-		int x = b.getSelectedPiece().currentX;
-		int y = b.getSelectedPiece().currentY;
-		int deltaX = -1;
-		int deltaY = -2;
+		x = b.getSelectedPiece().currentX;
+		y = b.getSelectedPiece().currentY;
+		deltaX = -1;
+		deltaY = -2;
 		b.moveChessPiece(x+deltaX, y+deltaY);
 		b.printBoard();
 		assertEquals(b.board.getBoard()[x+deltaX][y+deltaY].getType(), Type.Knight);
@@ -60,10 +62,10 @@ public class KnightMoveTest {
 	@Test
 	public void MoveUpRight() {
 		b.selectChessPiece(3,4);
-		int x = b.getSelectedPiece().currentX;
-		int y = b.getSelectedPiece().currentY;
-		int deltaX = 1;
-		int deltaY = 2;
+		x = b.getSelectedPiece().currentX;
+		y = b.getSelectedPiece().currentY;
+		deltaX = 1;
+		deltaY = 2;
 		b.moveChessPiece(x+deltaX, y+deltaY);
 		b.printBoard();
 		assertEquals(b.board.getBoard()[x+deltaX][y+deltaY].getType(), Type.Knight);
@@ -73,10 +75,10 @@ public class KnightMoveTest {
 	@Test
 	public void MoveDownRight() {
 		b.selectChessPiece(3,4);
-		int x = b.getSelectedPiece().currentX;
-		int y = b.getSelectedPiece().currentY;
-		int deltaX = 1;
-		int deltaY = -2;
+		x = b.getSelectedPiece().currentX;
+		y = b.getSelectedPiece().currentY;
+		deltaX = 1;
+		deltaY = -2;
 		b.moveChessPiece(x+deltaX, y+deltaY);
 		b.printBoard();
 		assertEquals(b.board.getBoard()[x+deltaX][y+deltaY].getType(), Type.Knight);
@@ -86,10 +88,10 @@ public class KnightMoveTest {
 	@Test
 	public void MoveOutOfBoard() {
 		b.selectChessPiece(1, 0);
-		int x = b.getSelectedPiece().currentX;
-		int y = b.getSelectedPiece().currentY;
-		int deltaX = -1;
-		int deltaY = -2;
+		x = b.getSelectedPiece().currentX;
+		y = b.getSelectedPiece().currentY;
+		deltaX = -1;
+		deltaY = -2;
 		b.printBoard();
 		assertEquals(b.moveChessPiece(x+deltaX, y+deltaY), false);
 		assertEquals(b.board.getBoard()[x][y].getType(), Type.Knight);
@@ -99,10 +101,10 @@ public class KnightMoveTest {
 		System.out.println("Moveup");
 		b.selectChessPiece(0, 7);
 		System.out.println(b.getSelectedPiece().currentX);
-		int x = b.getSelectedPiece().currentX;
-		int y = b.getSelectedPiece().currentY;
-		int deltaX = 1;
-		int deltaY = 2;
+		x = b.getSelectedPiece().currentX;
+		y = b.getSelectedPiece().currentY;
+		deltaX = 1;
+		deltaY = 2;
 		b.printBoard();
 		assertEquals(b.moveChessPiece(x+deltaX, y+deltaY), false);
 		assertEquals(b.board.getBoard()[x][y].getType(), Type.Knight);
@@ -112,11 +114,10 @@ public class KnightMoveTest {
 	public void hitEnemy(){
 		b.selectChessPiece(3, 4);
 		int arraySizeBefore = b.activeChessPieces.size();
-		System.out.println(arraySizeBefore);
-		int x = b.getSelectedPiece().currentX;
-		int y = b.getSelectedPiece().currentY;
-		int deltaX = -1;
-		int deltaY = 2;
+		x = b.getSelectedPiece().currentX;
+		y = b.getSelectedPiece().currentY;
+		deltaX = -1;
+		deltaY = 2;
 		b.moveChessPiece(x+deltaX, y+deltaY);
 		System.out.println(b.activeChessPieces.size());
 		assertEquals(b.board.getBoard()[x+deltaX][y+deltaY].getType(), Type.Knight);
@@ -124,14 +125,15 @@ public class KnightMoveTest {
 		assertNotEquals(arraySizeBefore, b.activeChessPieces.size());
 	}
 	
+	@Test
 	public void hitFriendly(){
 		b.selectChessPiece(1, 0);
 		int arraySizeBefore = b.activeChessPieces.size();
 		System.out.println(arraySizeBefore);
-		int x = b.getSelectedPiece().currentX;
-		int y = b.getSelectedPiece().currentY;
-		int deltaX = 2;
-		int deltaY = 1;
+		x = b.getSelectedPiece().currentX;
+		y = b.getSelectedPiece().currentY;
+		deltaX = 2;
+		deltaY = 1;
 		b.moveChessPiece(x+deltaX, y+deltaY);
 		System.out.println(b.activeChessPieces.size());
 		assertNotEquals(b.board.getBoard()[x+deltaX][y+deltaY].getType(), Type.Knight);

@@ -1,5 +1,8 @@
 package pieces;
 
+import java.util.ArrayList;
+
+import Utility.Position;
 import controller.BoardController;
 
 public class Rook extends Piece{
@@ -11,9 +14,9 @@ public class Rook extends Piece{
 	}
 
 	@Override
-	public boolean[][] possibleMoves(){
+	public ArrayList<Position> possibleMoves(){
 
-		boolean[][] moves = new boolean[8][8];
+		ArrayList<Position> moves = new ArrayList<Position>();
 
 		Piece piece;
 		int i;
@@ -25,12 +28,14 @@ public class Rook extends Piece{
 			if (i >= 8)
 				break;
 
-			piece = BoardController.Instance.chessPieces[i][currentY];
+			piece = BoardController.Instance.board.getBoard()[i][currentY];
 			if(piece == null)
-				moves[i][currentY] = true;
+				moves.add(new Position(i, currentY));
+				//moves[i][currentY] = true;
 			else{
-				if(piece.friendly != friendly)
-					moves[i][currentY] = true;
+				if(piece.isWhite != isWhite)
+					moves.add(new Position(i, currentY));
+					//moves[i][currentY] = true;
 				break;
 			}
 		}
@@ -42,12 +47,13 @@ public class Rook extends Piece{
 			if (i < 0)
 				break;
 
-			piece = BoardController.Instance.chessPieces[i][currentY];
+			piece = BoardController.Instance.board.getBoard()[i][currentY];
 			if(piece == null)
-				moves[i][currentY] = true;
+				moves.add(new Position(i, currentY));
+				//moves[i][currentY] = true;
 			else{
-				if(piece.friendly != friendly)
-					moves[i][currentY] = true;
+				if(piece.isWhite != isWhite)
+					moves.add(new Position(i, currentY));
 				break;
 			}
 		}
@@ -59,12 +65,13 @@ public class Rook extends Piece{
 			if (i >= 8)
 				break;
 
-			piece = BoardController.Instance.chessPieces[currentX][i];
+			piece = BoardController.Instance.board.getBoard()[currentX][i];
 			if(piece == null)
-				moves[currentX][i] = true;
+				
+				moves.add(new Position(currentX, i));
 			else{
-				if(piece.friendly != friendly)
-					moves[currentX][i] = true;
+				if(piece.isWhite != isWhite)
+					moves.add(new Position(currentX, i));
 				break;
 			}
 		}
@@ -76,12 +83,12 @@ public class Rook extends Piece{
 			if (i < 0)
 				break;
 
-			piece = BoardController.Instance.chessPieces[currentX][i];
+			piece = BoardController.Instance.board.getBoard()[currentX][i];
 			if(piece == null)
-				moves[currentX][i] = true;
+				moves.add(new Position(currentX, i));
 			else{
-				if(piece.friendly != friendly)
-					moves[currentX][i] = true;
+				if(piece.isWhite != isWhite)
+					moves.add(new Position(currentX, i));
 				break;
 			}
 		}

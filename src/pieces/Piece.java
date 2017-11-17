@@ -1,7 +1,10 @@
 package pieces;
+import java.util.ArrayList;
+
+import Utility.Position;
 
 public abstract class Piece {
-	public boolean friendly;
+	public boolean isWhite;
 	protected int baseValue;
 	public int value;
 	public int currentX;
@@ -10,7 +13,7 @@ public abstract class Piece {
 	public boolean hasAtLeastOneMove;
 	
 	public Piece(boolean friendly){
-		this.friendly = friendly;
+		this.isWhite = friendly;
 	}
 	
 	public Type getType(){
@@ -26,7 +29,7 @@ public abstract class Piece {
 		currentY = y;
 	}
 	
-	public boolean[][] possibleMoves(){
-		return new boolean[8][8];
+	public ArrayList<Position> possibleMoves(){
+		return new ArrayList<Position>();
 	}
 }

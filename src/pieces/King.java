@@ -1,5 +1,8 @@
 package pieces;
 
+import java.util.ArrayList;
+
+import Utility.Position;
 import controller.BoardController;
 
 public class King extends Piece{
@@ -12,9 +15,9 @@ public class King extends Piece{
 	}
 	
 	@Override
-	public boolean[][] possibleMoves(){
+	public ArrayList<Position> possibleMoves(){
 
-		boolean[][] r = new boolean[8][ 8];
+		ArrayList<Position> moves = new ArrayList<Position>() ;
 		Piece c;
 		int i, j;
 
@@ -24,11 +27,11 @@ public class King extends Piece{
 		if (currentY != 7) {
 			for (int k = 0; k < 3; k++) {
 				if (i >= 0 || i < 8) {
-					c = BoardController.Instance.chessPieces [i][j];
+					c = BoardController.Instance.board.getBoard() [i][j];
 					if (c == null)
-						r [i][j] = true;
-					else if (friendly != c.friendly)
-						r [i][j] = true;
+						moves.add(new Position(i, j));
+					else if (isWhite != c.isWhite)
+						moves.add(new Position(i, j));
 				}
 				i++;
 			}
@@ -40,11 +43,11 @@ public class King extends Piece{
 		if (currentY != 0) {
 			for (int k = 0; k < 3; k++) {
 				if (i >= 0 || i < 8) {
-					c = BoardController.Instance.chessPieces [i][j];
+					c = BoardController.Instance.board.getBoard() [i][j];
 					if (c == null)
-						r [i][j] = true;
-					else if (friendly != c.friendly)
-						r [i][j] = true;
+						moves.add(new Position(i, j));
+					else if (isWhite != c.isWhite)
+						moves.add(new Position(i, j));
 				}
 				i++;
 			}
@@ -53,23 +56,26 @@ public class King extends Piece{
 
 		//Middle Left
 		if(currentX != 0){
-			c = BoardController.Instance.chessPieces [currentX - 1][ currentY];
+			c = BoardController.Instance.board.getBoard() [currentX - 1][ currentY];
 			if (c == null)
-				r [currentX - 1][currentY] = true;
-			else if (friendly != friendly)
-				r[currentX - 1][ currentY] = true;
+				moves.add(new Position(currentX - 1, currentY));
+			else if (isWhite != c.isWhite)
+				moves.add(new Position(currentX -1 ,currentY));
+				//r[currentX - 1][ currentY] = true;
 		}
 
 		//Middle Right
 		if(currentX != 7){
-			c = BoardController.Instance.chessPieces [currentX + 1][ currentY];
+			c = BoardController.Instance.board.getBoard() [currentX + 1][ currentY];
 			if (c == null)
-				r[currentX + 1][ currentY] = true;
-			else if (friendly != c.friendly)
-				r [currentX + 1][currentY] = true;
+				moves.add(new Position(currentX+1,currentY));
+				//r[currentX + 1][ currentY] = true;
+			else if (isWhite != c.isWhite)
+				moves.add(new Position(currentX + 1, currentY));
+				// r [currentX + 1][currentY] = true;
 		}
 
-		return r;
+		return moves;
 	}
 
 }

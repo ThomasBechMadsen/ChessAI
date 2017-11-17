@@ -1,5 +1,8 @@
 package pieces;
 
+import java.util.ArrayList;
+
+import Utility.Position;
 import controller.BoardController;
 
 public class Knight extends Piece{
@@ -10,9 +13,9 @@ public class Knight extends Piece{
 		this.type = Type.Knight;
 	}
 	@Override
-	public boolean[][] possibleMoves(){
+	public ArrayList<Position> possibleMoves(){
 
-		boolean[][] moves = new boolean[8][8];
+		ArrayList<Position> moves = new ArrayList<Position>();
 
 		// Upleft
 		knightMove(currentX -1, currentY +2, moves); 		
@@ -34,14 +37,14 @@ public class Knight extends Piece{
 		return moves;
 	}
 
-	public void knightMove(int x, int y, boolean[][] r){
+	public void knightMove(int x, int y, ArrayList<Position> r){
 		Piece c;
 		if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-			c = BoardController.Instance.chessPieces [x][y];
+			c = BoardController.Instance.board.getBoard()[x][y];
 			if (c == null) {
-				r [x][y] = true;
-			}else if(friendly != c.friendly)
-				r[x][y]=true;
+				r.add(new Position(x,y));
+			}else if(isWhite != c.isWhite)
+				r.add(new Position(x,y));
 		}
 		
 	}
