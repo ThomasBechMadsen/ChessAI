@@ -77,6 +77,16 @@ public class Move {
 		Score = score;
 	}
 
-
+ 
+	public String toString(){
+		String targetString = "";
+		if(target != null){
+			targetString = " and beats " + target; 
+		}
+		else{
+			targetString = " which is empty";
+		}
+		return movingPiece.type +" moves from " + from + " to " + to + targetString;
+	}
 
 }

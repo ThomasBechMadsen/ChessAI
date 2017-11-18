@@ -15,15 +15,15 @@ public class Bishop extends Piece{
 	}
 	
 	@Override
-	public ArrayList<Position> possibleMoves(){
+	public ArrayList<Position> possibleMoves(Position pos){
 		
 		ArrayList<Position> moves = new ArrayList<Position>() ;
 		Piece piece;
 		int x,y;
 
 		//Topleft
-		x = currentX;
-		y = currentY;
+		x = pos.x;
+		y = pos.y;
 		while(true) {
 			x--;
 			y++;
@@ -41,8 +41,8 @@ public class Bishop extends Piece{
 		}
 
 		//TopRight
-		x = currentX;
-		y = currentY;
+		x = pos.x;
+		y = pos.y;
 		while(true) {
 			x++;
 			y++;
@@ -60,8 +60,8 @@ public class Bishop extends Piece{
 		}
 		
 		//Down Left
-		x = currentX;
-		y = currentY;
+		x = pos.x;
+		y = pos.y;
 		while(true) {
 			x--;
 			y--;
@@ -78,8 +78,8 @@ public class Bishop extends Piece{
 			}
 		}
 		//Down Right
-		x = currentX;
-		y = currentY;
+		x = pos.x;
+		y = pos.y;
 		while(true) {
 			x++;
 			y--;

@@ -13,7 +13,7 @@ public class Queen extends Piece{
 		baseValue = 900;
 	}
 	@Override
-	public ArrayList<Position> possibleMoves(){
+	public ArrayList<Position> possibleMoves(Position pos){
 
 
 		ArrayList<Position> moves = new ArrayList<Position>();
@@ -22,73 +22,73 @@ public class Queen extends Piece{
 		int i;
 
 		//Right
-		i = currentX;
+		i = pos.x;
 		while(true){
 			i++;
 			if (i >= 8)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[i][currentY];
+			piece = BoardController.Instance.board.getBoard()[i][pos.y];
 			if(piece == null)
-				moves.add(new Position(i, currentY));
-				//moves[i][currentY] = true;
+				moves.add(new Position(i, pos.y));
+				//moves[i][pos.y] = true;
 			else{
 				if(piece.isWhite != isWhite)
-					moves.add(new Position(i, currentY));
-					//moves[i][currentY] = true;
+					moves.add(new Position(i, pos.y));
+					//moves[i][pos.y] = true;
 				break;
 			}
 		}
 
 		//Left
-		i = currentX;
+		i = pos.x;
 		while(true){
 			i--;
 			if (i < 0)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[i][currentY];
+			piece = BoardController.Instance.board.getBoard()[i][pos.y];
 			if(piece == null)
-				moves.add(new Position(i, currentY));
-				//moves[i][currentY] = true;
+				moves.add(new Position(i, pos.y));
+				//moves[i][pos.y] = true;
 			else{
 				if(piece.isWhite != isWhite)
-					moves.add(new Position(i, currentY));
+					moves.add(new Position(i, pos.y));
 				break;
 			}
 		}
 
 		//UP
-		i = currentY;
+		i = pos.y;
 		while(true){
 			i++;
 			if (i >= 8)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[currentX][i];
+			piece = BoardController.Instance.board.getBoard()[pos.x][i];
 			if(piece == null)
 				
-				moves.add(new Position(currentX, i));
+				moves.add(new Position(pos.x, i));
 			else{
 				if(piece.isWhite != isWhite)
-					moves.add(new Position(currentX, i));
+					moves.add(new Position(pos.x, i));
 				break;
 			}
 		}
 
 		//Down
-		i = currentY;
+		i = pos.y;
 		while(true){
 			i--;
 			if (i < 0)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[currentX][i];
+			piece = BoardController.Instance.board.getBoard()[pos.x][i];
 			if(piece == null)
-				moves.add(new Position(currentX, i));
+				moves.add(new Position(pos.x, i));
 			else{
 				if(piece.isWhite != isWhite)
-					moves.add(new Position(currentX, i));
+					moves.add(new Position(pos.x, i));
 				break;
 			}
 		}
@@ -96,8 +96,8 @@ public class Queen extends Piece{
 		int x,y;
 
 		//Topleft
-		x = currentX;
-		y = currentY;
+		x = pos.x;
+		y = pos.y;
 		while(true) {
 			x--;
 			y++;
@@ -115,8 +115,8 @@ public class Queen extends Piece{
 		}
 
 		//TopRight
-		x = currentX;
-		y = currentY;
+		x = pos.x;
+		y = pos.y;
 		while(true) {
 			x++;
 			y++;
@@ -134,8 +134,8 @@ public class Queen extends Piece{
 		}
 		
 		//Down Left
-		x = currentX;
-		y = currentY;
+		x = pos.x;
+		y = pos.y;
 		while(true) {
 			x--;
 			y--;
@@ -152,8 +152,8 @@ public class Queen extends Piece{
 			}
 		}
 		//Down Right
-		x = currentX;
-		y = currentY;
+		x = pos.x;
+		y = pos.y;
 		while(true) {
 			x++;
 			y--;

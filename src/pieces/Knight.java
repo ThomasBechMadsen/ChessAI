@@ -13,26 +13,26 @@ public class Knight extends Piece{
 		this.type = Type.Knight;
 	}
 	@Override
-	public ArrayList<Position> possibleMoves(){
+	public ArrayList<Position> possibleMoves(Position pos){
 
 		ArrayList<Position> moves = new ArrayList<Position>();
 
 		// Upleft
-		knightMove(currentX -1, currentY +2, moves); 		
+		knightMove(pos.x -1, pos.y +2, moves); 		
 		// UpRight
-		knightMove(currentX +1, currentY +2, moves); 		
+		knightMove(pos.x +1, pos.y +2, moves); 		
 		// RightUp
-		knightMove(currentX +2, currentY +1, moves); 		
+		knightMove(pos.x +2, pos.y +1, moves); 		
 		// RightDown
-		knightMove(currentX +2, currentY -1, moves); 		
+		knightMove(pos.x +2, pos.y -1, moves); 		
 		// LeftUp
-		knightMove(currentX -2, currentY +1, moves); 		
+		knightMove(pos.x -2, pos.y +1, moves); 		
 		// LeftDown
-		knightMove(currentX -2, currentY -1, moves); 
+		knightMove(pos.x -2, pos.y -1, moves); 
 		// DownLeft
-		knightMove(currentX -1, currentY -2, moves); 		
+		knightMove(pos.x -1, pos.y -2, moves); 		
 		// DownRight
-		knightMove(currentX +1, currentY -2, moves); 
+		knightMove(pos.x +1, pos.y -2, moves); 
 
 		return moves;
 	}

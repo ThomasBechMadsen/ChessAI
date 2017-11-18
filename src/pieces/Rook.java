@@ -14,7 +14,7 @@ public class Rook extends Piece{
 	}
 
 	@Override
-	public ArrayList<Position> possibleMoves(){
+	public ArrayList<Position> possibleMoves(Position pos){
 
 		ArrayList<Position> moves = new ArrayList<Position>();
 
@@ -28,32 +28,32 @@ public class Rook extends Piece{
 			if (i >= 8)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[i][currentY];
+			piece = BoardController.Instance.board.getBoard()[i][pos.y];
 			if(piece == null)
-				moves.add(new Position(i, currentY));
+				moves.add(new Position(i, pos.x));
 				//moves[i][currentY] = true;
 			else{
 				if(piece.isWhite != isWhite)
-					moves.add(new Position(i, currentY));
+					moves.add(new Position(i, pos.y));
 					//moves[i][currentY] = true;
 				break;
 			}
 		}
 
 		//Left
-		i = currentX;
+		i = pos.x;
 		while(true){
 			i--;
 			if (i < 0)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[i][currentY];
+			piece = BoardController.Instance.board.getBoard()[i][pos.y];
 			if(piece == null)
-				moves.add(new Position(i, currentY));
+				moves.add(new Position(i, pos.y));
 				//moves[i][currentY] = true;
 			else{
 				if(piece.isWhite != isWhite)
-					moves.add(new Position(i, currentY));
+					moves.add(new Position(i, pos.y));
 				break;
 			}
 		}
@@ -65,19 +65,19 @@ public class Rook extends Piece{
 			if (i >= 8)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[currentX][i];
+			piece = BoardController.Instance.board.getBoard()[pos.x][i];
 			if(piece == null)
 				
-				moves.add(new Position(currentX, i));
+				moves.add(new Position(pos.x, i));
 			else{
 				if(piece.isWhite != isWhite)
-					moves.add(new Position(currentX, i));
+					moves.add(new Position(pos.x, i));
 				break;
 			}
 		}
 
 		//Down
-		i = currentY;
+		i = pos.y;
 		while(true){
 			i--;
 			if (i < 0)
@@ -85,10 +85,10 @@ public class Rook extends Piece{
 
 			piece = BoardController.Instance.board.getBoard()[currentX][i];
 			if(piece == null)
-				moves.add(new Position(currentX, i));
+				moves.add(new Position(pos.x, i));
 			else{
 				if(piece.isWhite != isWhite)
-					moves.add(new Position(currentX, i));
+					moves.add(new Position(pos.x, i));
 				break;
 			}
 		}

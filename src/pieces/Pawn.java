@@ -14,7 +14,7 @@ public class Pawn extends Piece{
 	}
 
 	@Override
-	public ArrayList<Position> possibleMoves(){
+	public ArrayList<Position> possibleMoves(Position pos){
 		ArrayList<Position> moves = new ArrayList<Position>();
 		int[] e = BoardController.Instance.enPassantMove;
 		Piece c1, c2;
@@ -22,92 +22,92 @@ public class Pawn extends Piece{
 		// White team move
 		if (isWhite) {
 			//Diagonal Left Move
-			if(currentX != 0 && currentY != 7){
-				if (e [0] == currentX - 1 && e [1] == currentY + 1) 
-					moves.add(new Position(currentX -1, currentY+1));
-					//moves [currentX - 1][ currentY + 1] = true;
+			if(pos.x != 0 && pos.y != 7){
+				if (e [0] == pos.x - 1 && e [1] == pos.y + 1) 
+					moves.add(new Position(pos.x -1, pos.y+1));
+					//moves [pos.x - 1][ pos.y + 1] = true;
 
-				c1 = BoardController.Instance.board.getBoard()[currentX -1][ currentY +1];
+				c1 = BoardController.Instance.board.getBoard()[pos.x -1][ pos.y +1];
 				if(c1 != null && !c1.isWhite){
-					moves.add(new Position(currentX -1, currentY+1));
-					//moves [currentX -1][currentY +1] = true;
+					moves.add(new Position(pos.x -1, pos.y+1));
+					//moves [pos.x -1][pos.y +1] = true;
 				}
 			}
 
 			//Diagonal Right Move
-			if(currentX != 7 && currentY != 7){
+			if(pos.x != 7 && pos.y != 7){
 
-				if (e [0] == currentX + 1 && e [1] == currentY + 1) 
-					moves.add(new Position(currentX +1, currentY+1));
-					//moves [currentX + 1][ currentY + 1] = true;
+				if (e [0] == pos.x + 1 && e [1] == pos.y + 1) 
+					moves.add(new Position(pos.x +1, pos.y+1));
+					//moves [pos.x + 1][ pos.y + 1] = true;
 				
-				c1 = BoardController.Instance.board.getBoard()[currentX +1][ currentY +1];
+				c1 = BoardController.Instance.board.getBoard()[pos.x +1][ pos.y +1];
 				if(c1 != null && !c1.isWhite){
-					moves.add(new Position(currentX +1, currentY+1));
-					//moves [currentX + 1][ currentY +1] = true;
+					moves.add(new Position(pos.x +1, pos.y+1));
+					//moves [pos.x + 1][ pos.y +1] = true;
 				}
 			}
 
 			//Middel 
-			if (currentY != 7) {
-				c1 = BoardController.Instance.board .getBoard()[currentX][ currentY + 1];
+			if (pos.y != 7) {
+				c1 = BoardController.Instance.board .getBoard()[pos.x][ pos.y + 1];
 				if (c1 == null)
-					moves.add(new Position(currentX, currentY+1));
-					//moves [currentX][ currentY + 1] = true;
+					moves.add(new Position(pos.x, pos.y+1));
+					//moves [pos.x][ pos.y + 1] = true;
 			}
 
 			//Middle on first move
-			if (currentY == 1) {
-				c1 = BoardController.Instance.board .getBoard()[currentX][ currentY + 1];
-				c2 = BoardController.Instance.board.getBoard() [currentX][ currentY + 2];
+			if (pos.y == 1) {
+				c1 = BoardController.Instance.board .getBoard()[pos.x][ pos.y + 1];
+				c2 = BoardController.Instance.board.getBoard() [pos.x][ pos.y + 2];
 				if (c1 == null & c2 == null)
-					moves.add(new Position(currentX , currentY+2));
-					//moves [currentX][currentY + 2] = true;
+					moves.add(new Position(pos.x , pos.y+2));
+					//moves [pos.x][pos.y + 2] = true;
 			}
 		}
 			
 		// Black team move
 		else {
 			//Diagonal Left Move
-			if(currentX != 0 && currentY != 0){
-				if (e [0] == currentX - 1 && e [1] == currentY - 1) 
-					moves.add(new Position(currentX -1, currentY-1));
-					//moves [currentX - 1][ currentY - 1] = true;
+			if(pos.x != 0 && pos.y != 0){
+				if (e [0] == pos.x - 1 && e [1] == pos.y - 1) 
+					moves.add(new Position(pos.x -1, pos.y-1));
+					//moves [pos.x - 1][ pos.y - 1] = true;
 				
-				c1 = BoardController.Instance.board.getBoard()[currentX -1][ currentY -1];
+				c1 = BoardController.Instance.board.getBoard()[pos.x -1][ pos.y -1];
 				if(c1 != null && c1.isWhite){
-					moves.add(new Position(currentX -1, currentY-1));
-					//moves [currentX -1][ currentY -1] = true;
+					moves.add(new Position(pos.x -1, pos.y-1));
+					//moves [pos.x -1][ pos.y -1] = true;
 				}
 			}
 
 			//Diagonal Right Move
-			if(currentX != 7 && currentY != 0){
-				if (e [0] == currentX + 1 && e [1] == currentY - 1) 
-					moves.add(new Position(currentX +1, currentY-1));
-					//moves [currentX + 1][ currentY - 1] = true;
-				c1 = BoardController.Instance.board.getBoard()[currentX +1][ currentY -1];
+			if(pos.x != 7 && pos.y != 0){
+				if (e [0] == pos.x + 1 && e [1] == pos.y - 1) 
+					moves.add(new Position(pos.x +1, pos.y-1));
+					//moves [pos.x + 1][ pos.y - 1] = true;
+				c1 = BoardController.Instance.board.getBoard()[pos.x +1][ pos.y -1];
 				if(c1 != null && c1.isWhite){
-					moves.add(new Position(currentX +1, currentY-1));
-					//moves [currentX + 1][ currentY -1] = true;
+					moves.add(new Position(pos.x +1, pos.y-1));
+					//moves [pos.x + 1][ pos.y -1] = true;
 				}
 			}
 
 			//Middel 
-			if (currentY != 0) {
-				c1 = BoardController.Instance.board.getBoard() [currentX][ currentY - 1];
+			if (pos.y != 0) {
+				c1 = BoardController.Instance.board.getBoard() [pos.x][ pos.y - 1];
 				if (c1 == null)
-					moves.add(new Position(currentX , currentY-1));
-					//moves [currentX][ currentY - 1] = true;
+					moves.add(new Position(pos.x , pos.y-1));
+					//moves [pos.x][ pos.y - 1] = true;
 			}
 
 			//Middle on first move
-			if (currentY == 6) {
-				c1 = BoardController.Instance.board.getBoard() [currentX][ currentY - 1];
-				c2 = BoardController.Instance.board.getBoard() [currentX][ currentY - 2];
+			if (pos.y == 6) {
+				c1 = BoardController.Instance.board.getBoard() [pos.x][ pos.y - 1];
+				c2 = BoardController.Instance.board.getBoard() [pos.x][ pos.y - 2];
 				if (c1 == null & c2 == null)
-					moves.add(new Position(currentX, currentY-2));
-					//moves [currentX][ currentY - 2] = true;
+					moves.add(new Position(pos.x, pos.y-2));
+					//moves [pos.x][ pos.y - 2] = true;
 			}
 		}
 		return moves;

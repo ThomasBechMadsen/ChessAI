@@ -24,12 +24,9 @@ public abstract class Piece {
 		return baseValue;
 	}
 	
-	public void setPosition(int x, int y){
-		currentX = x;
-		currentY = y;
-	}
 	
-	public ArrayList<Position> possibleMoves(){
+	
+	public ArrayList<Position> possibleMoves(Position pos){
 		return new ArrayList<Position>();
 	}
 }
