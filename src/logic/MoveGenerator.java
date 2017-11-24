@@ -32,6 +32,7 @@ public class MoveGenerator {
 	 * @param isWhite
 	 */
 	
+	//TODO Run alpha beta on every move in this method, then save the move with its score. Afterwards select the move with highest score
 	public void generateMoves(boolean isWhite){
 
 		// Går igennem brættet og finder brikkerne der måtte være.
