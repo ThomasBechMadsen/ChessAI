@@ -55,6 +55,25 @@ public class Board {
 			board[i][6] = new Pawn(false);
 		}
 	}
+	
+	public int evaluateBoard(){
+		int score = 0;
+		for(int y = 0; y < 8; y++){
+			for(int x = 0; x < 8; x++){
+				Piece p = board[x][y];
+				if(p != null){
+					if(p.isWhite){
+						score += p.getBaseValue() + p.getPositionalValue();
+					}
+					else{
+						 //Should get opposite positional value
+						score -= p.getBaseValue() + p.getPositionalValue();
+					}
+				}
+			}
+		}
+		return score;
+	}
 
 	
 }

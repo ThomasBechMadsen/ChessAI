@@ -17,13 +17,19 @@ public abstract class Piece {
 		this.isWhite = friendly;
 	}
 	
-	public Type getType(){
-		return type;
+	public int getBaseValue(){
+		return baseValue;
 	}
 	
-	public int getValue(){
-		value = baseValue + positionalValue[currentX][currentY];
-		return value;
+	public int getPositionalValue(){
+		if(!isWhite){
+			return positionalValue[7-currentX][7-currentY]; //Should give the opposite positional value
+		}
+		return positionalValue[currentX][currentY];
+	}
+	
+	public Type getType(){
+		return type;
 	}
 	
 	public ArrayList<Position> possibleMoves(Position pos){
