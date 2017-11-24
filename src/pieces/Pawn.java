@@ -7,6 +7,17 @@ import controller.BoardController;
 
 public class Pawn extends Piece{
 	
+	protected int[][] positionalValue = {
+			{0,0,0,0,0,0,0,0},
+			{7,7,13,23,26,13,7,7},
+			{-2,-2,4,12,15,4,-2,-2},
+			{-3,-3,2,9,11,2,-3,-3},
+			{-4,-4,0,6,8,0,-4,-4},
+			{-4,-4,0,4,6,0,-4,-4},
+			{-1,-1,1,5,6,1,-1,-1},
+			{0,0,0,0,0,0,0,0}
+	};
+	
 	public Pawn(boolean friendly) {
 		super(friendly);
 		baseValue = 100;

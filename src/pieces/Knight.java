@@ -7,6 +7,17 @@ import controller.BoardController;
 
 public class Knight extends Piece{
 
+	protected int[][] positionalValue = {
+			{-2,2,7,9,9,7,2,-2},
+			{1,4,12,13,13,12,4,1},
+			{5,11,18,19,19,18,11,5},
+			{3,10,14,14,14,14,10,3},
+			{0,5,8,9,9,8,5,0},
+			{-3,1,3,4,4,3,1,-3},
+			{-5,-3,-1,0,0,-1,-3,-5},
+			{-7,-5,-4,-2,-2,-4,-5,-7}
+	};
+	
 	public Knight(boolean friendly) {
 		super(friendly);
 		baseValue = 300;

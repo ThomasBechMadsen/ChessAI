@@ -8,6 +8,17 @@ import controller.BoardController;
 
 public class Bishop extends Piece{
 
+	protected int[][] positionalValue = {
+			{2,3,4,4,4,4,3,2},
+			{4,7,7,7,7,7,7,4},
+			{3,5,6,6,6,6,5,3},
+			{3,5,7,7,7,7,5,3},
+			{4,5,6,8,8,6,5,4},
+			{4,5,-2,-2,5,5,4},
+			{5,5,5,3,3,5,5,5},
+			{0,0,0,0,0,0,0,0}
+	};
+	
 	public Bishop(boolean friendly) {
 		super(friendly);
 		this.type = Type.Bishop;

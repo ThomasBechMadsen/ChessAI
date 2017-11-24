@@ -6,6 +6,7 @@ import Utility.Position;
 public abstract class Piece {
 	public boolean isWhite;
 	protected int baseValue;
+	protected int[][] positionalValue;
 	public int value;
 	public int currentX;
 	public int currentY;
@@ -20,11 +21,10 @@ public abstract class Piece {
 		return type;
 	}
 	
-	public int getBaseValue() {
-		return baseValue;
+	public int getValue(){
+		value = baseValue + positionalValue[currentX][currentY];
+		return value;
 	}
-	
-	
 	
 	public ArrayList<Position> possibleMoves(Position pos){
 		return new ArrayList<Position>();

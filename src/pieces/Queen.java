@@ -7,6 +7,17 @@ import controller.BoardController;
 
 public class Queen extends Piece{
 	
+	protected int[][] positionalValue = {
+			{2,3,4,3,4,3,3,2},
+			{2,3,4,4,4,4,3,2},
+			{3,4,4,4,4,4,4,3},
+			{3,3,4,4,4,4,3,3},
+			{2,3,3,4,4,3,3,2},
+			{2,2,2,3,3,2,2,2},
+			{2,2,2,2,2,2,2,2},
+			{0,0,0,0,0,0,0,0}
+	};
+	
 	public Queen(boolean friendly) {
 		super(friendly);
 		this.type = Type.Queen;

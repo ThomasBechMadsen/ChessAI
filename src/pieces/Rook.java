@@ -7,6 +7,17 @@ import controller.BoardController;
 
 public class Rook extends Piece{
 
+	protected int[][] positionalValue = {
+			{9,9,11,10,11,9,9,9},
+			{4,6,7,9,9,7,6,4},
+			{9,10,10,11,11,10,10,9},
+			{8,8,8,9,9,8,8,8},
+			{6,6,5,6,6,5,6,6},
+			{4,5,5,5,5,5,5,4},
+			{3,4,4,6,6,4,4,3},
+			{0,0,0,0,0,0,0,0}
+	};
+	
 	public Rook(boolean friendly) {
 		super(friendly);
 		this.type = Type.Rook;

@@ -7,6 +7,16 @@ import controller.BoardController;
 
 public class King extends Piece{
 
+	protected int[][] positionalValue = {
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0}
+	};
 	
 	public King(boolean friendly) {
 		super(friendly);

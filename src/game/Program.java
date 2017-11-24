@@ -21,12 +21,12 @@ public class Program {
 		MoveGenerator mg = new MoveGenerator(bc);
 		
 		
-		
 		mg.generateMoves(bc.isWhiteTurn);
 		System.out.println(mg.moves.size());
 	
 	for(Move move : mg.moves){
 		System.out.println(move);
+		System.out.println(move.getScore());
 	}
 	}
 	
