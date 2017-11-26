@@ -22,10 +22,11 @@ public class Rook extends Piece{
 		super(friendly);
 		this.type = Type.Rook;
 		baseValue = 500;
+		super.setPositionalValue(positionalValue);
 	}
 
 	@Override
-	public ArrayList<Position> possibleMoves(Position pos){
+	public ArrayList<Position> possibleMoves(Position pos,Piece[][] board){
 
 		ArrayList<Position> moves = new ArrayList<Position>();
 
@@ -33,15 +34,15 @@ public class Rook extends Piece{
 		int i;
 
 		//Right
-		i = currentX;
+		i = pos.x;
 		while(true){
 			i++;
 			if (i >= 8)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[i][pos.y];
+			piece = board[i][pos.y];
 			if(piece == null)
-				moves.add(new Position(i, pos.x));
+				moves.add(new Position(i, pos.y));
 				//moves[i][currentY] = true;
 			else{
 				if(piece.isWhite != isWhite)
@@ -58,7 +59,7 @@ public class Rook extends Piece{
 			if (i < 0)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[i][pos.y];
+			piece = board[i][pos.y];
 			if(piece == null)
 				moves.add(new Position(i, pos.y));
 				//moves[i][currentY] = true;
@@ -70,13 +71,13 @@ public class Rook extends Piece{
 		}
 
 		//UP
-		i = currentY;
+		i = pos.y;
 		while(true){
 			i++;
 			if (i >= 8)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[pos.x][i];
+			piece = board[pos.x][i];
 			if(piece == null)
 				
 				moves.add(new Position(pos.x, i));
@@ -94,7 +95,7 @@ public class Rook extends Piece{
 			if (i < 0)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[currentX][i];
+			piece = board[pos.x][i];
 			if(piece == null)
 				moves.add(new Position(pos.x, i));
 			else{

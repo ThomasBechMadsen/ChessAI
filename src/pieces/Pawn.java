@@ -7,7 +7,7 @@ import controller.BoardController;
 
 public class Pawn extends Piece{
 	
-	protected int[][] positionalValue = {
+	public int[][] positionalValue = {
 			{0,0,0,0,0,0,0,0},
 			{7,7,13,23,26,13,7,7},
 			{-2,-2,4,12,15,4,-2,-2},
@@ -22,10 +22,12 @@ public class Pawn extends Piece{
 		super(friendly);
 		baseValue = 100;
 		this.type = Type.Pawn;
+		super.setPositionalValue(positionalValue);
 	}
 
 	@Override
-	public ArrayList<Position> possibleMoves(Position pos){
+	public ArrayList<Position> possibleMoves(Position pos,Piece[][] board){
+	//	System.out.println("DEBUG PAWN start xy = " + pos);
 		ArrayList<Position> moves = new ArrayList<Position>();
 		int[] e = BoardController.Instance.enPassantMove;
 		Piece c1, c2;
@@ -38,7 +40,7 @@ public class Pawn extends Piece{
 					moves.add(new Position(pos.x -1, pos.y+1));
 					//moves [pos.x - 1][ pos.y + 1] = true;
 
-				c1 = BoardController.Instance.board.getBoard()[pos.x -1][ pos.y +1];
+				c1 = board[pos.x -1][ pos.y +1];
 				if(c1 != null && !c1.isWhite){
 					moves.add(new Position(pos.x -1, pos.y+1));
 					//moves [pos.x -1][pos.y +1] = true;
@@ -52,7 +54,7 @@ public class Pawn extends Piece{
 					moves.add(new Position(pos.x +1, pos.y+1));
 					//moves [pos.x + 1][ pos.y + 1] = true;
 				
-				c1 = BoardController.Instance.board.getBoard()[pos.x +1][ pos.y +1];
+				c1 = board[pos.x +1][ pos.y +1];
 				if(c1 != null && !c1.isWhite){
 					moves.add(new Position(pos.x +1, pos.y+1));
 					//moves [pos.x + 1][ pos.y +1] = true;
@@ -61,7 +63,7 @@ public class Pawn extends Piece{
 
 			//Middel 
 			if (pos.y != 7) {
-				c1 = BoardController.Instance.board .getBoard()[pos.x][ pos.y + 1];
+				c1 = board[pos.x][ pos.y + 1];
 				if (c1 == null)
 					moves.add(new Position(pos.x, pos.y+1));
 					//moves [pos.x][ pos.y + 1] = true;
@@ -69,8 +71,8 @@ public class Pawn extends Piece{
 
 			//Middle on first move
 			if (pos.y == 1) {
-				c1 = BoardController.Instance.board .getBoard()[pos.x][ pos.y + 1];
-				c2 = BoardController.Instance.board.getBoard() [pos.x][ pos.y + 2];
+				c1 = board[pos.x][ pos.y + 1];
+				c2 = board [pos.x][ pos.y + 2];
 				if (c1 == null & c2 == null)
 					moves.add(new Position(pos.x , pos.y+2));
 					//moves [pos.x][pos.y + 2] = true;
@@ -85,7 +87,7 @@ public class Pawn extends Piece{
 					moves.add(new Position(pos.x -1, pos.y-1));
 					//moves [pos.x - 1][ pos.y - 1] = true;
 				
-				c1 = BoardController.Instance.board.getBoard()[pos.x -1][ pos.y -1];
+				c1 = board[pos.x -1][ pos.y -1];
 				if(c1 != null && c1.isWhite){
 					moves.add(new Position(pos.x -1, pos.y-1));
 					//moves [pos.x -1][ pos.y -1] = true;
@@ -97,7 +99,7 @@ public class Pawn extends Piece{
 				if (e [0] == pos.x + 1 && e [1] == pos.y - 1) 
 					moves.add(new Position(pos.x +1, pos.y-1));
 					//moves [pos.x + 1][ pos.y - 1] = true;
-				c1 = BoardController.Instance.board.getBoard()[pos.x +1][ pos.y -1];
+				c1 = board[pos.x +1][ pos.y -1];
 				if(c1 != null && c1.isWhite){
 					moves.add(new Position(pos.x +1, pos.y-1));
 					//moves [pos.x + 1][ pos.y -1] = true;
@@ -106,7 +108,7 @@ public class Pawn extends Piece{
 
 			//Middel 
 			if (pos.y != 0) {
-				c1 = BoardController.Instance.board.getBoard() [pos.x][ pos.y - 1];
+				c1 = board [pos.x][ pos.y - 1];
 				if (c1 == null)
 					moves.add(new Position(pos.x , pos.y-1));
 					//moves [pos.x][ pos.y - 1] = true;
@@ -114,8 +116,8 @@ public class Pawn extends Piece{
 
 			//Middle on first move
 			if (pos.y == 6) {
-				c1 = BoardController.Instance.board.getBoard() [pos.x][ pos.y - 1];
-				c2 = BoardController.Instance.board.getBoard() [pos.x][ pos.y - 2];
+				c1 = board [pos.x][ pos.y - 1];
+				c2 = board [pos.x][ pos.y - 2];
 				if (c1 == null & c2 == null)
 					moves.add(new Position(pos.x, pos.y-2));
 					//moves [pos.x][ pos.y - 2] = true;

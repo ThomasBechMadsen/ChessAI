@@ -11,7 +11,7 @@ public class Main {
 	public static void main(String[] args) {
 		Board board = new Board();
 		board.generateStandardBoard();
-		BoardController b = new BoardController(board.getBoard() );
+		BoardController b = new BoardController(board);
 		b.board.generateStandardBoard();
 		Scanner input = new Scanner(System.in);
 

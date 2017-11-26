@@ -13,16 +13,6 @@ import pieces.Piece;
  *
  */
 public class MoveGenerator {
-	 public ArrayList<Move> moves;	
-	 public Piece[][] board;
-
-	private BoardController boardObject;
-
-	public MoveGenerator(BoardController boardObject){
-		this.boardObject = boardObject;
-		moves = new ArrayList<>();
-		board = boardObject.board.getBoard();
-	}
 
 	/**
 	 * Første version af generateMoves, den kigger simpelthen alle brikker igennem,
@@ -33,7 +23,8 @@ public class MoveGenerator {
 	 */
 	
 	//TODO Run alpha beta on every move in this method, then save the move with its score. Afterwards select the move with highest score
-	public void generateMoves(boolean isWhite){
+	public static  ArrayList<Move> generateMoves(boolean isWhite, Piece[][] board){
+		ArrayList<Move> moves = new ArrayList<>();
 
 		// Går igennem brættet og finder brikkerne der måtte være.
 		for(int i = 0; i < 8; i++){
@@ -42,21 +33,28 @@ public class MoveGenerator {
 				//Check hvis feltet er en brik
 				if(board[j][i] != null){
 					Piece piece = board[j][i]; // Brikken der kigges på.
-
+			
 					//Kun hvis brikken er spillerens skal der gøres noget.
 					if(piece.isWhite == isWhite){
 						// Der gåes igennem de mulige træk for brikken
-						for(Position pos: piece.possibleMoves(new Position(j,i))){
+						for(Position pos: piece.possibleMoves(new Position(j,i),board)){
 							//Der bliver genereret et move
 							Piece targetPiece = board[pos.x][pos.y];
+							
 							Position to = new Position(pos.x, pos.y);
-							Position from = new Position(i+1,j+1);
-							moves.add(new Move(from, to, piece, targetPiece));
+							Position from = new Position(j,i);
+							Move move = new Move(from, to, piece, targetPiece);
+						//	System.out.println(move);
+							moves.add(move);
 						}
 					}
+			
 				}
+			
 			}
+			
 		}
+		return moves;
 	}
 }
 

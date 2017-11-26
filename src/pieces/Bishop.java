@@ -8,7 +8,7 @@ import controller.BoardController;
 
 public class Bishop extends Piece{
 
-	protected int[][] positionalValue = {
+	public int[][] positionalValue = {
 			{2,3,4,4,4,4,3,2},
 			{4,7,7,7,7,7,7,4},
 			{3,5,6,6,6,6,5,3},
@@ -23,10 +23,11 @@ public class Bishop extends Piece{
 		super(friendly);
 		this.type = Type.Bishop;
 		baseValue = 300;
+		super.setPositionalValue(positionalValue);
 	}
 	
 	@Override
-	public ArrayList<Position> possibleMoves(Position pos){
+	public ArrayList<Position> possibleMoves(Position pos,Piece[][] board){
 		
 		ArrayList<Position> moves = new ArrayList<Position>() ;
 		Piece piece;
@@ -41,7 +42,7 @@ public class Bishop extends Piece{
 			if(x < 0 || y>= 8)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[x][y];
+			piece = board[x][y];
 			if(piece == null)
 				moves.add(new Position(x, y));
 			else{
@@ -60,7 +61,7 @@ public class Bishop extends Piece{
 			if(x >= 8 || y >= 8)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[x][y];
+			piece = board[x][y];
 			if(piece == null)
 				moves.add(new Position(x, y));
 			else{
@@ -79,7 +80,7 @@ public class Bishop extends Piece{
 			if(x < 0 || y < 0)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[x][y];
+			piece = board[x][y];
 			if(piece == null)
 				moves.add(new Position(x, y));
 			else{
@@ -97,7 +98,7 @@ public class Bishop extends Piece{
 			if(x >= 8 || y < 0)
 				break;
 
-			piece = BoardController.Instance.board.getBoard()[x][y];
+			piece = board[x][y];
 			if(piece == null)
 				moves.add(new Position(x, y));
 			else{

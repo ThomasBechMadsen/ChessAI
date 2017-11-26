@@ -6,6 +6,7 @@ import pieces.*;
 public class Board {
 	private Piece[][] board;
 	public boolean isWhiteTurn = true;
+	public boolean isMate = false;
 	
 	public Piece[][] getBoard() {
 		return board;
@@ -63,16 +64,47 @@ public class Board {
 				Piece p = board[x][y];
 				if(p != null){
 					if(p.isWhite){
-						score += p.getBaseValue() + p.getPositionalValue();
+						score += p.getBaseValue() + p.getPositionalValue(x,y);
 					}
 					else{
 						 //Should get opposite positional value
-						score -= p.getBaseValue() + p.getPositionalValue();
+						score -= p.getBaseValue() + p.getPositionalValue(x,y);
 					}
 				}
 			}
 		}
 		return score;
+	}
+
+	public boolean getIsMate() {
+		// TODO Auto-generated method stub Når der er skat mat skal denne sættes
+		return isMate;
+	}
+	public Board clone(){
+		Board clonedBoard = new Board();
+		Piece[][] newBoard = new Piece[8][8];
+		for (int i = 0; i < newBoard.length; i++) {
+			for (int j = 0; j < newBoard.length; j++) {
+				newBoard[j][i] = this.getBoard()[j][i];
+			}
+		}
+		clonedBoard.setBoard(newBoard);
+		clonedBoard.setMate(isMate);
+		clonedBoard.setWhiteTurn(isWhiteTurn);
+		return clonedBoard;
+		
+	}
+
+	public boolean isWhiteTurn() {
+		return isWhiteTurn;
+	}
+
+	public void setWhiteTurn(boolean isWhiteTurn) {
+		this.isWhiteTurn = isWhiteTurn;
+	}
+
+	public void setMate(boolean isMate) {
+		this.isMate = isMate;
 	}
 
 	

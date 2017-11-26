@@ -1,6 +1,8 @@
 package game;
 import java.util.ArrayList;
 
+import Utility.Position;
+import algo.AlphaBeta;
 import controller.BoardController;
 import logic.Move;
 import logic.MoveGenerator;
@@ -8,27 +10,19 @@ import pieces.Piece;
 
 public class Program {
 
-	
-	
+
+
 	public static void main(String[] args) {
 		//Initialize board
 		Board board = new Board();
 		board.generateStandardBoard();
 		BoardController bc = new BoardController(board.getBoard());
-		
-		
-		bc.printBoard();
-		MoveGenerator mg = new MoveGenerator(bc);
-		
-		
-		mg.generateMoves(bc.isWhiteTurn);
-		System.out.println(mg.moves.size());
+		AlphaBeta ab = new AlphaBeta();
+
 	
-	for(Move move : mg.moves){
-		System.out.println(move);
-		System.out.println(move.getScore());
+		System.out.println(ab.bestMove(board, 1));
+
+
 	}
-	}
-	
 
 }
