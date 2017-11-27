@@ -55,7 +55,6 @@ public class King extends Piece{
 		if (pos.y != 0) {
 			for (int k = 0; k < 3; k++) {
 				if (i >= 0 && i < 8) {
-					System.out.println(j + " " + i);
 					c = board [i][j];
 					if (c == null)
 						moves.add(new Position(i, j));

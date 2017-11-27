@@ -23,10 +23,17 @@ public abstract class Piece {
 	}
 	
 	public int getPositionalValue(int x, int y){
-		
+		try{
+			positionalValue[x][y] = 3;
+			positionalValue[7-x][7-y] = 3;
+		}catch(ArrayIndexOutOfBoundsException e){
+			System.out.println(this.type);
+			return 3;
+		}
 		if(!isWhite){
 			return positionalValue[7-x][7-y]; //Should give the opposite positional value
 		}
+		
 		return positionalValue[x][y];
 	}
 	

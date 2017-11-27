@@ -7,6 +7,7 @@ public class Board {
 	private Piece[][] board;
 	public boolean isWhiteTurn = true;
 	public boolean isMate = false;
+
 	
 	public Piece[][] getBoard() {
 		return board;
@@ -89,23 +90,11 @@ public class Board {
 			}
 		}
 		clonedBoard.setBoard(newBoard);
-		clonedBoard.setMate(isMate);
-		clonedBoard.setWhiteTurn(isWhiteTurn);
 		return clonedBoard;
 		
 	}
 
-	public boolean isWhiteTurn() {
-		return isWhiteTurn;
-	}
 
-	public void setWhiteTurn(boolean isWhiteTurn) {
-		this.isWhiteTurn = isWhiteTurn;
-	}
-
-	public void setMate(boolean isMate) {
-		this.isMate = isMate;
-	}
 
 	
 }
