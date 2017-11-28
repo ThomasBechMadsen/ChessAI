@@ -60,21 +60,28 @@ public class Board {
 	
 	public int evaluateBoard(){
 		int score = 0;
+		int white = 0;
+		int black = 0;
 		for(int y = 0; y < 8; y++){
 			for(int x = 0; x < 8; x++){
+				int pScore;
 				Piece p = board[x][y];
 				if(p != null){
 					if(p.isWhite){
-						score += p.getBaseValue() + p.getPositionalValue(x,y);
+						score =  p.getBaseValue() + p.getPositionalValue(x,y);
+						white += score;
 					}
 					else{
 						 //Should get opposite positional value
-						score -= p.getBaseValue() + p.getPositionalValue(x,y);
+						black -= p.getBaseValue() + p.getPositionalValue(x,y);
 					}
 				}
 			}
 		}
-		return score;
+		int score1 = white + black;
+		
+		
+		return score1;
 	}
 
 	public boolean getIsMate() {
