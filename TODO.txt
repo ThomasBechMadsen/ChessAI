@@ -1,0 +1,24 @@
+RAPPORT
+- Emner 
+
+Move Generation
+- Træk udvælgelse
+- 
+
+Iterative Deepening
+
+Board Controller
+ - Skal kunne tage et move som parameter istedet for Positioner.
+ - Skal gemme modstanderens træk
+ - x/y skal rettes eller standardiseres
+ - Det skal gøres klart hvilke regler vi kan bruge, og hvilke regler der er implementerey (virker de?)
+ -
+
+Input - modstander skak moves.
+ - Der skal laves en klasse som kan tage modstanderens træk eller menneskelige spillers træk
+
+Algoritme klasse
+ - evt forsøge med en multithreaded version, selv om det er en konstant forbedring, på maks 4x. så kommer det til at betyde noget i sidste ende. f.eks tager det 120 sek at køre igennem 90 mio træk, på samme tid kunne man måske tage 360 mio træk, eller man kunne tage 90 mio træk på 40 sek.
+ - DO/undo move istedet for at clone et bræt?, der kunne ligge noget performance i at benytte samme bræt og ikke oprette 25+ mio objekter.
+
+Andre ting
