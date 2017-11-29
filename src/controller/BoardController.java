@@ -77,7 +77,7 @@ public class BoardController {
 
 	
 	/**
-	 * Metode der flytter brikkerne på brættet.
+	 * Metode der flytter brikkerne pï¿½ brï¿½ttet.
 	 * @param newPos er positionen som brikken flyttes til
 	 * @param oldPos er positionen som brikken rykkes fra
 	 * @return
@@ -209,8 +209,8 @@ public class BoardController {
 		this.board.setBoard(board);
 	}
 	
-public void setPlayerTurn(boolean isWhite){
-	this.isWhiteTurn = isWhite;
-}
+	public void setPlayerTurn(boolean isWhite){
+		this.isWhiteTurn = isWhite;
+	}
 
 }

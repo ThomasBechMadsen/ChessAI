@@ -25,12 +25,11 @@ public class Program {
 
 		
 		long timeStart = System.currentTimeMillis();
-		int[] counters = ab.bestMove(bc.board, 8);
+		int[] counters = ab.bestMove(bc.board, 4);
 			System.out.println(counters[0]);
 			System.out.println(counters[1]);
-			
 			double timeElapsed = ((double)(System.currentTimeMillis() -timeStart)/1000);
-System.out.println(timeElapsed);
+			System.out.println(timeElapsed);
 
 	}
 }

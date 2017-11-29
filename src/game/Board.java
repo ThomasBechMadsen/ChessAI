@@ -60,32 +60,28 @@ public class Board {
 	
 	public int evaluateBoard(){
 		int score = 0;
-		int white = 0;
-		int black = 0;
-		for(int y = 0; y < 8; y++){
-			for(int x = 0; x < 8; x++){
-				int pScore;
-				Piece p = board[x][y];
+		for(int row = 0; row < 8; row++){
+			for(int col = 0; col < 8; col++){
+				Piece p = board[col][row];
 				if(p != null){
 					if(p.isWhite){
-						score =  p.getBaseValue() + p.getPositionalValue(x,y);
-						white += score;
+						score += (p.getBaseValue() + p.getPositionalValue(row,col));
+						System.out.println("Score white "  +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
 					}
 					else{
-						 //Should get opposite positional value
-						black -= p.getBaseValue() + p.getPositionalValue(x,y);
+						//Should get opposite positional value
+						score -= (p.getBaseValue() + p.getPositionalValue(row,col));
+						System.out.println("Score black " +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
 					}
 				}
 			}
 		}
-		int score1 = white + black;
-		
-		
-		return score1;
+		//System.out.println(score);
+		return score;
 	}
 
 	public boolean getIsMate() {
-		// TODO Auto-generated method stub Når der er skat mat skal denne sættes
+		// TODO Auto-generated method stub Nï¿½r der er skat mat skal denne sï¿½ttes
 		return isMate;
 	}
 	public Board clone(){

@@ -11,18 +11,18 @@ public class Main {
 	public static void main(String[] args) {
 		Board board = new Board();
 		board.generateStandardBoard();
-		BoardController b = new BoardController(board);
+		BoardController b = new BoardController(board.getBoard());
 		b.board.generateStandardBoard();
 		Scanner input = new Scanner(System.in);
-
 		int x, y;
-		Position pos = new Position(2,5);
-		b.selectChessPiece(2,5);
-		Position newPos = new Position(3, 7);
-		b.moveChessPiece(newPos, pos);
+		//Position pos = new Position(2,5);
+		//b.selectChessPiece(2,5);
+		//Position newPos = new Position(3, 7);
+		//b.moveChessPiece(newPos, pos);
 		//b.selectChessPiece(1, 6);
 		b.printBoard();
 		while(true){
+			System.out.println("Score: "+b.board.evaluateBoard());
 			System.out.println("Vælg et brik");
 			System.out.print("kolone: ");
 			x = input.nextInt();
@@ -44,6 +44,7 @@ public class Main {
 				}
 				Position newNewPos = new Position(x-1, y-1);
 				b.moveChessPiece(newNewPos, oldPos);
+				b.setPlayerTurn(!b.isWhiteTurn);
 			}
 			//for(Piece p : b.activeChessPieces)
 				//System.out.print(p.getType() +" - ");
