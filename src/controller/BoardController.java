@@ -27,6 +27,7 @@ public class BoardController {
 	public Board board = new Board();
 	private Piece selectedPiece;
 	public boolean isWhiteTurn;
+	public boolean isGameOver;
 
 	public BoardController(Piece[][] board){
 		Instance = this;
@@ -109,7 +110,7 @@ public class BoardController {
 				if(p.type == Type.KING){
 					// End the game
 					endGame();
-					return false;
+					return true;
 				}
 				//fjern modstanderen brik
 				activeChessPieces.remove(p);
@@ -176,36 +177,12 @@ public class BoardController {
 		}else{
 		//	System.out.println("Black Wins!");
 		}
+		isGameOver = true;
 		activeChessPieces.removeAll(activeChessPieces);
+		board.generateStandardBoard();
 	}
 	
 	public void printBoard(){
-		for(int i = -1; i < board.getBoard().length; i++){
-			if(i>-1 && i<8)
-				System.out.printf("%d: ",(i+1));
-			for(int j = 0 ; j < board.getBoard()[0].length ; j++){
-				if(i == -1)
-					System.out.printf("	%c	|  ",('h'-j));
-				else if(board.getBoard()[j][i] != null && i>-1 && i < 8){
-					if(board.getBoard()[j][i].isWhite)
-						System.out.print("W");
-					else
-						System.out.print("B");
-					System.out.printf("%s	|  ", board.getBoard()[j][i].type);
-				}
-				else
-					System.out.print("------	|  ");
-			}
-			System.out.println();
-		}
-//		System.out.println("\n");
-		if(isWhiteTurn)
-			System.out.println("Det er WHITE's tur");
-		else
-			System.out.println("Det er BLACK's tur");		
-	}
-	
-	public void printBoardR(){
 		for(int i = 8; i >= 0; i--){
 			if(i>0)
 				System.out.printf("%d: ",(i));

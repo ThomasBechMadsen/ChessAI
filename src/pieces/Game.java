@@ -24,7 +24,7 @@ public class Game {
 	
 	public void startGame(){
 		while(true){
-			bc.printBoardR();
+			bc.printBoard();
 			if(bc.isWhiteTurn){
 				System.out.print("Vælg et brik: ");
 				getInput();
@@ -48,7 +48,11 @@ public class Game {
 				ab.bestMove(bc.board, 2, bc.isWhiteTurn);
 				bc.setPlayerTurn(!bc.isWhiteTurn);
 				//bc.printBoardR();
-			}			
+			}	
+			if(bc.isGameOver){
+				bc.setPlayerTurn(true);
+			}
+				
 		}
 	}
 	

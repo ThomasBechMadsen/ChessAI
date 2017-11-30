@@ -31,6 +31,7 @@ public class Board {
 	}
 	
 	public void generateStandardBoard(){
+		Piece[][] board = new Piece[8][8];
 		//Generate friendly pieces
 		board[0][0] = new Rook(true);
 		board[1][0] = new Knight(true);
@@ -56,6 +57,8 @@ public class Board {
 			board[i][1] = new Pawn(true);
 			board[i][6] = new Pawn(false);
 		}
+		
+		this.board = board;
 	}
 	
 	public int evaluateBoard(){
