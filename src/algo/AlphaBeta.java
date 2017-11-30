@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import controller.BoardController;
 import game.Board;
+import game.Program;
 import logic.Move;
 import logic.MoveGenerator;
 import pieces.Piece;
@@ -17,14 +18,14 @@ public class AlphaBeta {
 	public Move bMove;
 	public boolean isWhite = false;
 
-	BoardController bc = new BoardController(null);
+	BoardController bc = new BoardController();
 
 
-	public  int[] bestMove(Board board, int depth, boolean isWhiteTurn){
+	public  int[] bestMove(int depth, boolean isWhiteTurn) throws Exception{
 		isWhite = isWhiteTurn;
 		System.out.println(depth);
 
-		int score = 	 alphaBetaMax(Integer.MIN_VALUE, Integer.MAX_VALUE, board, depth);
+		int score = alphaBetaMax(Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
 		//		System.out.println("depth 8 " + leafCounter);
 		//		System.out.println("depth 7 " + depth1);
 		//		System.out.println("depth 6 " + depth2);
@@ -38,7 +39,7 @@ public class AlphaBeta {
 		return new int[] {moveCounter, leafCounter};
 	}
 
-	public int alphaBetaMax(int alpha, int beta, Board board, int depthLeft){
+	public int alphaBetaMax(int alpha, int beta, int depthLeft) throws Exception{
 		Move theMove = null;
 
 		if(depthLeft == 8){
@@ -72,27 +73,21 @@ public class AlphaBeta {
 		// Denne if kan gøres mere specifik, returnere -uendelig hvis dette er mate, 0 hvis remis;
 		if(depthLeft == 0 ){
 			leafCounter++;
-			return board.evaluateBoard();// evaluation;
+			return Program.b.evaluateBoard();// evaluation;
 		}
-		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhite, board.getBoard()); 
+		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhite, Program.b.getBoard()); 
 		for (Move move : moves) {
 
-			// Der laves en kopi af brættet til at lave trækket
-			Board newBoard =  board.clone();
-
-			bc.setBoard(newBoard.getBoard());
-
-			// Brikken flyttes
+			if(!bc.execute(move, isWhite)){
+				throw new Exception("Illegal move: " + move);
+			}
 			
-			bc.setPlayerTurn(isWhite);
-			bc.selectChessPiece(move.getFrom().x, move.getFrom().y);
-			bc.moveChessPiece(move.getTo(), move.getFrom());
+			int	score = alphaBetaMin(alpha, beta, depthLeft -1 );
 			
-			// Scoren findes igennem Minimizeren
-
-
-
-			int	score = alphaBetaMin(alpha, beta, newBoard, depthLeft -1 );
+			if(!bc.undo(move, isWhite)){
+				System.out.println("Illegal undo: " + move);
+			}
+			
 			if(score >= beta){
 				return beta;
 			}
@@ -104,15 +99,13 @@ public class AlphaBeta {
 		}
 		if(theMove != null){
 
-			bc.setBoard(board.getBoard());
-			bc.setPlayerTurn(isWhite);
-			bc.selectChessPiece(theMove.getFrom().x, theMove.getFrom().y);
-			bc.moveChessPiece(theMove.getTo(), theMove.getFrom());
+			System.out.println("The long awaited move: " + theMove);
+			bc.execute(theMove, isWhite);
 		}
 		return alpha;
 	}
 
-	public  int alphaBetaMin(int alpha, int beta, Board board, int depthLeft) {
+	public  int alphaBetaMin(int alpha, int beta, int depthLeft) throws Exception {
 		Move theMove = null;
 		if(depthLeft == 8){
 			depth8++;
@@ -147,25 +140,22 @@ public class AlphaBeta {
 			leafCounter++;
 
 
-			return board.evaluateBoard();// evaluation;
+			return Program.b.evaluateBoard();// evaluation;
 		}
 
-		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhite, board.getBoard()); 
+		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhite, Program.b.getBoard()); 
 		for (Move move : moves) {
+			
+			if(!bc.execute(move, isWhite)){
+				throw new Exception("Illegal move: " + move);
+			}
 
-			// Der laves en kopi af brættet til at lave trækket
-			Board newBoard = board.clone(); 
-			bc.setBoard(newBoard.getBoard());
-
-			// Brikken flyttes
-			bc.setPlayerTurn(isWhite);
-
-			bc.selectChessPiece(move.getFrom().x, move.getFrom().y);
-			bc.moveChessPiece(move.getTo(), move.getFrom());
-
-			// Scoren findes igennem Minimizeren
-
-			int score = alphaBetaMax(alpha, beta, newBoard, depthLeft -1 );
+			int score = alphaBetaMax(alpha, beta, depthLeft -1 );
+			
+			if(!bc.undo(move, isWhite)){
+				System.out.println("Illegal undo detected!");
+			}
+			
 			if(score <= alpha){
 
 				return alpha;
@@ -178,12 +168,8 @@ public class AlphaBeta {
 		}
 		if(theMove != null){
 			
-			bc.setPlayerTurn(isWhite);
-			bc.setBoard(board.getBoard());
-			bc.selectChessPiece(theMove.getFrom().x, theMove.getFrom().y);
-			bc.moveChessPiece(theMove.getTo(), theMove.getFrom());	
-		
-
+			System.out.println("The long awaited move: " + theMove);
+			bc.execute(theMove, isWhite);
 		}
 		return beta;
 
