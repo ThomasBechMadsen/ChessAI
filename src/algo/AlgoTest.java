@@ -37,7 +37,7 @@ public class AlgoTest {
 		AlphaBeta algo = new AlphaBeta();
 		AlgoTest t = new AlgoTest();
 		t.initializeNodes();
-		System.out.println("\nBestMove:   "+algo.bestMove(n));
+		//System.out.println("\nBestMove:   "+algo.bestMove(n));
 		Node bestMove = n;
 		while(bestMove != null ){
 			System.out.println(bestMove);

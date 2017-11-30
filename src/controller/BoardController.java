@@ -27,7 +27,6 @@ public class BoardController {
 	public Board board = new Board();
 	private Piece selectedPiece;
 	public boolean isWhiteTurn;
-	public boolean isGameOver;
 
 	public BoardController(Piece[][] board){
 		Instance = this;
@@ -173,10 +172,8 @@ public class BoardController {
 	
 	private void endGame(){
 		if(isWhiteTurn){
-			isGameOver = true;
 		//	System.out.println("White Wins!");
 		}else{
-			isGameOver = true;
 		//	System.out.println("Black Wins!");
 		}
 		activeChessPieces.removeAll(activeChessPieces);
@@ -188,7 +185,7 @@ public class BoardController {
 				System.out.printf("%d: ",(i+1));
 			for(int j = 0 ; j < board.getBoard()[0].length ; j++){
 				if(i == -1)
-					System.out.printf("	%c	|  ",('a'+j));
+					System.out.printf("	%c	|  ",('h'-j));
 				else if(board.getBoard()[j][i] != null && i>-1 && i < 8){
 					if(board.getBoard()[j][i].isWhite)
 						System.out.print("W");
@@ -206,6 +203,31 @@ public class BoardController {
 			System.out.println("Det er WHITE's tur");
 		else
 			System.out.println("Det er BLACK's tur");		
+	}
+	
+	public void printBoardR(){
+		for(int i = 8; i >= 0; i--){
+			if(i>0)
+				System.out.printf("%d: ",(i));
+			for(int j = 8 ; j > 0 ; j--){
+				if(i == 0)
+					System.out.printf("	%c	|  ",('i'-j));
+				else if(board.getBoard()[j-1][i-1] != null && i>=0  && i <= 8){
+					if(board.getBoard()[j-1][i-1].isWhite)
+						System.out.printf(" %s	|  ", board.getBoard()[j-1][i-1].type.toString().toUpperCase());
+					else
+						System.out.printf(" %s	|  ", board.getBoard()[j-1][i-1].type.toString().toLowerCase());
+				}
+				else
+					System.out.print("------	|  ");
+			}
+			System.out.println();
+		}
+		System.out.println("\n");
+		if(isWhiteTurn)
+			System.out.println("Det er din tur");
+		else
+			System.out.println("Det er computerens tur");		
 	}
 
 	public void setBoard(Piece[][] board) {
