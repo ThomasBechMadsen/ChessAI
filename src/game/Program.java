@@ -23,13 +23,20 @@ public class Program {
 		
 		AlphaBeta ab = new AlphaBeta();
 
+		bc.printBoard();
 		
-		long timeStart = System.currentTimeMillis();
-		int[] counters = ab.bestMove(bc.board, 4);
-			System.out.println(counters[0]);
-			System.out.println(counters[1]);
-			double timeElapsed = ((double)(System.currentTimeMillis() -timeStart)/1000);
-			System.out.println(timeElapsed);
+		while(!bc.isGameOver){
+			long startTime = System.currentTimeMillis();
+			ab.bestMove(bc.board, 4,bc.isWhiteTurn);
+			System.out.println(System.currentTimeMillis() -startTime);
+			if(bc.isWhiteTurn){
+				bc.setPlayerTurn(false);
+			}else{
+				bc.setPlayerTurn(true);
+				
+			}
+			bc.printBoard();
+		}
 
 	}
 }

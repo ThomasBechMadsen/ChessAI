@@ -14,12 +14,14 @@ public class AlphaBeta {
 	public int leafCounter = 0;
 	ArrayList<Integer> nodesPerDepth;
 	int depth1=0, depth2=0,depth3=0,depth4=0,depth0=0, depth5=0,depth6=0,depth7=0, depth8 = 0;
-	public Move bMove;;
+	public Move bMove;
+	public boolean isWhite = false;
 
 	BoardController bc = new BoardController(null);
 
 
-	public  int[] bestMove(Board board, int depth){
+	public  int[] bestMove(Board board, int depth, boolean isWhiteTurn){
+		isWhite = isWhiteTurn;
 		System.out.println(depth);
 
 		int score = 	 alphaBetaMax(Integer.MIN_VALUE, Integer.MAX_VALUE, board, depth);
@@ -72,7 +74,7 @@ public class AlphaBeta {
 			leafCounter++;
 			return board.evaluateBoard();// evaluation;
 		}
-		ArrayList<Move> moves = MoveGenerator.generateMoves(true, board.getBoard()); 
+		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhite, board.getBoard()); 
 		for (Move move : moves) {
 
 			// Der laves en kopi af brættet til at lave trækket
@@ -82,7 +84,7 @@ public class AlphaBeta {
 
 			// Brikken flyttes
 			
-			bc.setPlayerTurn(true);
+			bc.setPlayerTurn(isWhite);
 			bc.selectChessPiece(move.getFrom().x, move.getFrom().y);
 			bc.moveChessPiece(move.getTo(), move.getFrom());
 			
@@ -103,7 +105,7 @@ public class AlphaBeta {
 		if(theMove != null){
 
 			bc.setBoard(board.getBoard());
-			bc.setPlayerTurn(true);
+			bc.setPlayerTurn(isWhite);
 			bc.selectChessPiece(theMove.getFrom().x, theMove.getFrom().y);
 			bc.moveChessPiece(theMove.getTo(), theMove.getFrom());
 		}
@@ -148,7 +150,7 @@ public class AlphaBeta {
 			return board.evaluateBoard();// evaluation;
 		}
 
-		ArrayList<Move> moves = MoveGenerator.generateMoves(false, board.getBoard()); 
+		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhite, board.getBoard()); 
 		for (Move move : moves) {
 
 			// Der laves en kopi af brættet til at lave trækket
@@ -156,7 +158,7 @@ public class AlphaBeta {
 			bc.setBoard(newBoard.getBoard());
 
 			// Brikken flyttes
-			bc.setPlayerTurn(false);
+			bc.setPlayerTurn(isWhite);
 
 			bc.selectChessPiece(move.getFrom().x, move.getFrom().y);
 			bc.moveChessPiece(move.getTo(), move.getFrom());
@@ -176,7 +178,7 @@ public class AlphaBeta {
 		}
 		if(theMove != null){
 			
-			bc.setPlayerTurn(false);
+			bc.setPlayerTurn(isWhite);
 			bc.setBoard(board.getBoard());
 			bc.selectChessPiece(theMove.getFrom().x, theMove.getFrom().y);
 			bc.moveChessPiece(theMove.getTo(), theMove.getFrom());	

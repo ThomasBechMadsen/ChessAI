@@ -27,6 +27,7 @@ public class BoardController {
 	public Board board = new Board();
 	private Piece selectedPiece;
 	public boolean isWhiteTurn;
+	public boolean isGameOver;
 
 	public BoardController(Piece[][] board){
 		Instance = this;
@@ -172,8 +173,10 @@ public class BoardController {
 	
 	private void endGame(){
 		if(isWhiteTurn){
+			isGameOver = true;
 		//	System.out.println("White Wins!");
 		}else{
+			isGameOver = true;
 		//	System.out.println("Black Wins!");
 		}
 		activeChessPieces.removeAll(activeChessPieces);
