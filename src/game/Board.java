@@ -66,12 +66,12 @@ public class Board {
 				if(p != null){
 					if(p.isWhite){
 						score += (p.getBaseValue() + p.getPositionalValue(row,col));
-						System.out.println("Score white "  +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
+						//System.out.println("Score white "  +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
 					}
 					else{
 						//Should get opposite positional value
 						score -= (p.getBaseValue() + p.getPositionalValue(row,col));
-						System.out.println("Score black " +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
+						//System.out.println("Score black " +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
 					}
 				}
 			}
