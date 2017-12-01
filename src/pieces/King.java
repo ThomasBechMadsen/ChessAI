@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Utility.Position;
 import controller.BoardController;
+import game.Board;
 
 public class King extends Piece{
 
@@ -18,6 +19,7 @@ public class King extends Piece{
 			{0,0,0,0,0,0,0,0}
 	};
 	
+	
 	public King(boolean friendly) {
 		super(friendly);
 		this.type = Type.KING;
@@ -27,7 +29,7 @@ public class King extends Piece{
 	}
 	
 	@Override
-	public ArrayList<Position> possibleMoves(Position pos, Piece[][] board){
+	public ArrayList<Position> possibleMoves(Position pos, Board board){
 
 		ArrayList<Position> moves = new ArrayList<Position>() ;
 		Piece c;
@@ -39,7 +41,7 @@ public class King extends Piece{
 		if (pos.y != 7) {
 			for (int k = 0; k < 3; k++) {
 				if (i >= 0 && i < 8) {
-					c = board [i][j];
+					c = board.getBoard() [i][j];
 					if (c == null)
 						moves.add(new Position(i, j));
 					else if (isWhite != c.isWhite)
@@ -55,7 +57,7 @@ public class King extends Piece{
 		if (pos.y != 0) {
 			for (int k = 0; k < 3; k++) {
 				if (i >= 0 && i < 8) {
-					c = board [i][j];
+					c = board.getBoard() [i][j];
 					if (c == null)
 						moves.add(new Position(i, j));
 					else if (isWhite != c.isWhite)
@@ -68,7 +70,7 @@ public class King extends Piece{
 
 		//Middle Left
 		if(pos.x != 0){
-			c = board [pos.x - 1][ pos.y];
+			c = board.getBoard() [pos.x - 1][ pos.y];
 			if (c == null)
 				moves.add(new Position(pos.x - 1, pos.y));
 			else if (isWhite != c.isWhite)
@@ -78,7 +80,7 @@ public class King extends Piece{
 
 		//Middle Right
 		if(pos.x != 7){
-			c = board [pos.x + 1][ pos.y];
+			c = board.getBoard() [pos.x + 1][ pos.y];
 			if (c == null)
 				moves.add(new Position(pos.x+1,pos.y));
 				//r[pos.x + 1][ pos.y] = true;
