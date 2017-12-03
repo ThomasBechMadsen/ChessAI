@@ -11,7 +11,7 @@ import pieces.Piece;
 
 public class Program {
 
-	static boolean playerTurn = true; //White always starts
+	public static boolean playerTurn = true; //White always starts
 	public static Board b;
 
 	public static void main(String[] args) {
@@ -30,7 +30,7 @@ public class Program {
 			bc.printBoard();
 			long startTime = System.currentTimeMillis();
 			try {
-				ab.bestMove(4, playerTurn);
+				ab.bestMove(6, playerTurn);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

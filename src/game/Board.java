@@ -31,6 +31,7 @@ public class Board {
 	}
 	
 	public void generateStandardBoard(){
+		Piece[][] board = new Piece[8][8];
 		//Generate friendly pieces
 		board[0][0] = new Rook(true);
 		board[1][0] = new Knight(true);
@@ -56,6 +57,8 @@ public class Board {
 			board[i][1] = new Pawn(true);
 			board[i][6] = new Pawn(false);
 		}
+		
+		this.board = board;
 	}
 	
 	public int evaluateBoard(){
@@ -66,12 +69,12 @@ public class Board {
 				if(p != null){
 					if(p.isWhite){
 						score += (p.getBaseValue() + p.getPositionalValue(row,col));
-						System.out.println("Score white "  +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
+						//System.out.println("Score white "  +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
 					}
 					else{
 						//Should get opposite positional value
 						score -= (p.getBaseValue() + p.getPositionalValue(row,col));
-						System.out.println("Score black " +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
+						//System.out.println("Score black " +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
 					}
 				}
 			}
@@ -84,20 +87,5 @@ public class Board {
 		// TODO Auto-generated method stub N�r der er skat mat skal denne s�ttes
 		return isMate;
 	}
-	public Board clone(){
-		Board clonedBoard = new Board();
-		Piece[][] newBoard = new Piece[8][8];
-		for (int i = 0; i < newBoard.length; i++) {
-			for (int j = 0; j < newBoard.length; j++) {
-				newBoard[j][i] = this.getBoard()[j][i];
-			}
-		}
-		clonedBoard.setBoard(newBoard);
-		return clonedBoard;
-		
-	}
 
-
-
-	
 }

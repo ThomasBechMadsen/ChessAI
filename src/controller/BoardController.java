@@ -18,11 +18,7 @@ import pieces.Type;
 
 public class BoardController {
 	public static BoardController Instance;
-	private ArrayList<Position> allowedMoves;
 	
-
-	public int[] enPassantMove = {-1,-1};
-
 	public List<Piece> activeChessPieces;
 
 	public boolean isGameOver;
@@ -32,86 +28,64 @@ public class BoardController {
 		activeChessPieces = new ArrayList<Piece>();
 	}
 
-	public boolean execute(Move move, boolean isWhite){
+	public void execute(Move move, boolean isWhite) throws Exception{
 		 //Check if this piece can be moved
-		if(!legalPiece(move.getFrom().x, move.getFrom().y, isWhite)){
-			return false;
-		}
-		if(!legalMove(move)){
-			return false;
-		}
+		legalPiece(move.getFrom().x, move.getFrom().y, isWhite);
+		legalMove(move);
 		move(move);
-		System.out.println("Execute");
-		printBoard();
-		return true;
+		//System.out.println("Execute");
+		//printBoard();
 	}
 	
-	public boolean undo(Move move, boolean isWhite){
-		if(!legalPiece(move.getTo().x, move.getTo().y, isWhite)){
-			return false;
-		}
-		
+	public void undo(Move move, boolean isWhite) throws Exception{
+		legalPiece(move.getTo().x, move.getTo().y, isWhite);
 		reverseMove(move);
-		System.out.println("Undo:");
-		printBoard();
-		return true;
+		//System.out.println("Undo:");
+		//printBoard();
 	}
 	
-	private boolean legalPiece(int posX, int posY, boolean isWhite){
+	private void legalPiece(int posX, int posY, boolean isWhite) throws Exception{
 		// return if selected is outside board
 		if(posX < 0 || posX > 7 || posY < 0 || posY > 7){
-			System.out.println();
-			return false;
+			throw new Exception("Piece out of bounds!");
 		}
 		
 		// return if the player selects an empty position
 		if (Program.b.getBoard()[posX][posY] == null){
-			System.out.println("No piece found on this position");
-			return false;
+			throw new Exception("No piece found on this position (" + posX + "," + posY + ")");
 		}
 		
 		// return if the player is moving the wrong color
 		if (Program.b.getBoard() [posX][posY].isWhite != isWhite){
-			System.out.println("Selected piece is wrong colour");
-			return false;
+			System.out.println("pos x = " + posX + " posy= "  + posY );
+			printBoard();
+			System.exit(1);
+			throw new Exception("Selected piece is wrong colour");
 		}
-		return true;
 	}
 	
-	private boolean legalMove(Move move){
+	private void legalMove(Move move) throws Exception{
 		// If outside the board then return
-		//QUESTION: Will this ever be possible due to the pieces own possibleMoves method?
 		Position newPos = move.getTo();
 		if(newPos.x < 0 || newPos.x > 7 || newPos.y < 0 || newPos.y > 7){
-			System.out.println("Moving out of bounds");
-			return false;
+			throw new Exception("Moving out of bounds");
 		}
 		
 		if(move.getTarget() != null && move.getMovingPiece().isWhite == move.getTarget().isWhite){
-			System.out.println("Defeating friendly piece");
-			return false;
+			throw new Exception("Defeating friendly piece");
 		}
 
 		if(!move.getMovingPiece().possibleMoves(move.getFrom(), Program.b.getBoard()).contains(newPos)){
-			System.out.println("Move not part of possible moves");
-			return false;
+			throw new Exception("Move not part of possible moves");
 		}
-		return true;
 	}
 	
 	private void move(Move move){
 		if(move.getTarget() != null){
-			if(move.getTarget() instanceof King){
-				endGame();
-				return;
-			}
 			activeChessPieces.remove(move.getTarget());
 		}
 		
 		if(move.getMovingPiece() instanceof Pawn){
-			
-			//TODO: Insert enPassant move
-			
 			//Check pawn promotion
 			if(move.getTo().y == 7){
 				spawnChessPiece ( move.getFrom().x, move.getFrom().y, new Queen(true));
@@ -142,95 +116,6 @@ public class BoardController {
 		spawnChessPiece ( move.getTo().x, move.getTo().y, move.getTarget());
 	}
 	
-	/**
-	 * Metode der flytter brikkerne p� br�ttet.
-	 * @param newPos er positionen som brikken flyttes til
-	 * @param oldPos er positionen som brikken rykkes fra
-	 * @return
-	 */
-	/*private boolean moveChessPiece(Position newPos, Position oldPos){
-		// if outside the board then return
-		if(newPos.x < 0 || newPos.x > 7 || newPos.y < 0 || newPos.y > 7){
-		//	System.out.println("Træk ikke muligt!\n");
-			return false;
-		}
-
-		boolean moveAllowed = false ;
-		
-		// check if the move is allowed
-		if (selectedPiece == null )
-			return false;
-		
-		for(Position p : allowedMoves)
-			if(p.x == newPos.x && p.y == newPos.y)
-				moveAllowed = true;
-		
-		
-		if (moveAllowed){ //allowedMoves[x][y]) {
-	//		System.out.printf("%s(%d,%d) rykkes til (%d,%d)\n",selectedPiece.getType(),oldPos.x+1, oldPos.y+1,newPos.x+1, newPos.y+1);
-			Piece p = board.getBoard() [newPos.x][newPos.y];
-			// tjek hvis modstanderens brik
-			if(p != null && p.isWhite != isWhiteTurn){
-				//tjek hvis modstanderens brik er kongen
-				if(p.type == Type.KING){
-					// End the game
-					endGame();
-					return false;
-				}
-				//fjern modstanderen brik
-				activeChessPieces.remove(p);
-			}
-
-			if (newPos.x == enPassantMove [0] && newPos.y == enPassantMove [1]) {
-				if (isWhiteTurn) 
-					p = board.getBoard() [newPos.x][ newPos.y - 1];
- 				else 
-					p = board.getBoard() [newPos.x][newPos.y + 1];
-				activeChessPieces.remove(p);
-			}
-
-			enPassantMove [0] = -1;
-			enPassantMove [1] = -1;
-			
-			if (selectedPiece.type == Type.Pawn ) {
-				// Promotion rules
-				if (newPos.y == 7) { // if white pawn reach top replace with white Queen
-					activeChessPieces.remove(p);
-					board.getBoard()[oldPos.x][oldPos.y] = null;
-					spawnChessPiece ( newPos.x, newPos.y, new Queen(true));
-					selectedPiece = board.getBoard() [newPos.x][newPos.y];
-				} else if(newPos.y == 0){ // if black pawn reach top replace with black Queen
-					activeChessPieces.remove(p);
-					board.getBoard()[oldPos.x][oldPos.y] = null;
-					spawnChessPiece ( newPos.x, newPos.y, new Queen(false));
-					selectedPiece = board.getBoard()[newPos.x][newPos.y];
-				}
-
-				// En passant Rules
-				if (oldPos.x == 1 && newPos.y == 3) {
-					enPassantMove [0] = newPos.x;
-					enPassantMove [1] = newPos.y - 1;
-				}else if (oldPos.y == 6 && newPos.y == 4) {
-					enPassantMove [0] = newPos.x;
-					enPassantMove [1] = newPos.y + 1;
-				}
-			}
-
-			board.getBoard() [oldPos.x][ oldPos.y] = null;
-			
-			board.getBoard() [newPos.x][newPos.y] = selectedPiece;
-		
-
-			selectedPiece = null;
-			return true;
-		}
-		else{
-			//System.out.println("Træk ikke muligt!\n");
-			selectedPiece = null;
-			return false;
-		}
-	}*/
-
 	public void spawnChessPiece(int x, int y, Piece piece){
 		Program.b.getBoard() [x][y] = piece;
 		activeChessPieces.add(piece);
@@ -238,28 +123,34 @@ public class BoardController {
 	
 	private void endGame(){
 		System.out.println("Game Over!");
+		isGameOver = true;
 		activeChessPieces.removeAll(activeChessPieces);
+		Program.b.generateStandardBoard();
 	}
 	
 	public void printBoard(){
-		for(int i = -1; i < Program.b.getBoard().length; i++){
-			if(i>-1 && i<8)
-				System.out.printf("%d: ",(i+1));
-			for(int j = 0 ; j < Program.b.getBoard()[0].length ; j++){
-				if(i == -1)
-					System.out.printf("	%c	|  ",('a'+j));
-				else if(Program.b.getBoard()[j][i] != null && i>-1 && i < 8){
-					if(Program.b.getBoard()[j][i].isWhite)
-						System.out.print("W");
+		for(int i = 8; i >= 0; i--){
+			if(i>0)
+				System.out.printf("%d: ",(i));
+			for(int j = 8 ; j > 0 ; j--){
+				if(i == 0)
+					System.out.printf("	%c	|  ",('i'-j));
+				else if(Program.b.getBoard()[j-1][i-1] != null && i>=0  && i <= 8){
+					if(Program.b.getBoard()[j-1][i-1].isWhite)
+						System.out.printf(" %s	|  ", Program.b.getBoard()[j-1][i-1].type.toString().toUpperCase());
 					else
-						System.out.print("B");
-					System.out.printf("%s	|  ", Program.b.getBoard()[j][i].type);
+						System.out.printf(" %s	|  ", Program.b.getBoard()[j-1][i-1].type.toString().toLowerCase());
 				}
 				else
 					System.out.print("------	|  ");
 			}
 			System.out.println();
 		}
-	}
 
+		System.out.println("\n");
+		if(Program.playerTurn)
+			System.out.println("Det er WHITEs tur");
+		else
+			System.out.println("Det er BLACKs tur");		
+	}
 }

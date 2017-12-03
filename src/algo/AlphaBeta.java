@@ -16,16 +16,14 @@ public class AlphaBeta {
 	ArrayList<Integer> nodesPerDepth;
 	int depth1=0, depth2=0,depth3=0,depth4=0,depth0=0, depth5=0,depth6=0,depth7=0, depth8 = 0;
 	public Move bMove;
-	public boolean isWhite = false;
 
 	BoardController bc = new BoardController();
 
 
 	public  int[] bestMove(int depth, boolean isWhiteTurn) throws Exception{
-		isWhite = isWhiteTurn;
-		System.out.println(depth);
 
-		int score = alphaBetaMax(Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
+		int score = alphaBetaMax(Integer.MIN_VALUE, Integer.MAX_VALUE, depth, isWhiteTurn);
+		bc.execute(bMove, isWhiteTurn);
 		//		System.out.println("depth 8 " + leafCounter);
 		//		System.out.println("depth 7 " + depth1);
 		//		System.out.println("depth 6 " + depth2);
@@ -39,7 +37,7 @@ public class AlphaBeta {
 		return new int[] {moveCounter, leafCounter};
 	}
 
-	public int alphaBetaMax(int alpha, int beta, int depthLeft) throws Exception{
+	public int alphaBetaMax(int alpha, int beta, int depthLeft, boolean isWhiteTurn) {
 		Move theMove = null;
 
 		if(depthLeft == 8){
@@ -71,21 +69,22 @@ public class AlphaBeta {
 		moveCounter++;
 
 		// Denne if kan gøres mere specifik, returnere -uendelig hvis dette er mate, 0 hvis remis;
-		if(depthLeft == 0 ){
+		if(depthLeft == 0 || bc.isGameOver){
 			leafCounter++;
 			return Program.b.evaluateBoard();// evaluation;
 		}
-		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhite, Program.b.getBoard()); 
+		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhiteTurn, Program.b.getBoard()); 
 		for (Move move : moves) {
-
-			if(!bc.execute(move, isWhite)){
-				throw new Exception("Illegal move: " + move);
-			}
-			
-			int	score = alphaBetaMin(alpha, beta, depthLeft -1 );
-			
-			if(!bc.undo(move, isWhite)){
-				System.out.println("Illegal undo: " + move);
+			int	score = -1;
+			try {
+				bc.execute(move, isWhiteTurn);
+				
+				score = alphaBetaMin(alpha, beta, depthLeft -1, isWhiteTurn);
+				
+				bc.undo(move, isWhiteTurn);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
 			if(score >= beta){
@@ -99,13 +98,12 @@ public class AlphaBeta {
 		}
 		if(theMove != null){
 
-			System.out.println("The long awaited move: " + theMove);
-			bc.execute(theMove, isWhite);
+			bMove = theMove;
 		}
 		return alpha;
 	}
 
-	public  int alphaBetaMin(int alpha, int beta, int depthLeft) throws Exception {
+	public  int alphaBetaMin(int alpha, int beta, int depthLeft, boolean isWhiteTurn) {
 		Move theMove = null;
 		if(depthLeft == 8){
 			depth8++;
@@ -136,24 +134,26 @@ public class AlphaBeta {
 
 		// Denne if kan gøres mere specifik, returnere -uendelig hvis dette er mate, 0 hvis remis;
 		//System.out.println(depthLeft + " minimizer  counter =  " + counter++);
-		if(depthLeft == 0){
+		if(depthLeft == 0 || bc.isGameOver){
 			leafCounter++;
 
 
 			return Program.b.evaluateBoard();// evaluation;
 		}
 
-		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhite, Program.b.getBoard()); 
+		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhiteTurn, Program.b.getBoard()); 
 		for (Move move : moves) {
+			int	score = -1;
 			
-			if(!bc.execute(move, isWhite)){
-				throw new Exception("Illegal move: " + move);
-			}
-
-			int score = alphaBetaMax(alpha, beta, depthLeft -1 );
-			
-			if(!bc.undo(move, isWhite)){
-				System.out.println("Illegal undo detected!");
+			try {
+				bc.execute(move, isWhiteTurn);
+	
+				score = alphaBetaMax(alpha, beta, depthLeft -1, isWhiteTurn);
+				
+				bc.undo(move, isWhiteTurn);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
 			if(score <= alpha){
@@ -168,8 +168,7 @@ public class AlphaBeta {
 		}
 		if(theMove != null){
 			
-			System.out.println("The long awaited move: " + theMove);
-			bc.execute(theMove, isWhite);
+			bMove = theMove;
 		}
 		return beta;
 
