@@ -23,8 +23,9 @@ public class MoveGenerator {
 	 */
 
 	//TODO Run alpha beta on every move in this method, then save the move with its score. Afterwards select the move with highest score
-	public static  ArrayList<Move> generateMoves(boolean isWhite, Piece[][] board){
+	public static  ArrayList<Move> generateMoves(boolean isWhite, Board b){
 		ArrayList<Move> moves = new ArrayList<>();
+		Piece[][] board = b.getBoard();
 
 		// Går igennem brættet og finder brikkerne der måtte være.
 		for(int i = 0; i < 8; i++){
@@ -37,7 +38,7 @@ public class MoveGenerator {
 					//Kun hvis brikken er spillerens skal der gøres noget.
 					if(piece.isWhite == isWhite){
 						// Der gåes igennem de mulige træk for brikken
-						for(Position pos: piece.possibleMoves(new Position(j,i),board)){
+						for(Position pos: piece.possibleMoves(new Position(j,i),b)){
 							//	System.out.println("MoveGenerator brik farve check: " + piece.isWhite);
 							//Der bliver genereret et move
 							Piece targetPiece = board[pos.x][pos.y];

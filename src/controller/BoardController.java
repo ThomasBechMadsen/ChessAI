@@ -75,7 +75,7 @@ public class BoardController {
 			throw new Exception("Defeating friendly piece");
 		}
 
-		if(!move.getMovingPiece().possibleMoves(move.getFrom(), Program.b.getBoard()).contains(newPos)){
+		if(!move.getMovingPiece().possibleMoves(move.getFrom(), Program.b).contains(newPos)){
 			throw new Exception("Move not part of possible moves");
 		}
 	}

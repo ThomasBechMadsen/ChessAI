@@ -9,6 +9,27 @@ public class Board {
 	public boolean isWhiteCheck = false;
 	public boolean isBlackCheck = false;
 
+	public boolean[][] whiteThreat = {
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false}
+	};
+
+	public boolean[][] blackThreat = {
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false},
+			{false,false,false,false,false,false,false,false}
+	};
 	
 	public Piece[][] getBoard() {
 		return board;
@@ -84,9 +105,5 @@ public class Board {
 		return score;
 	}
 
-	public boolean getIsMate() {
-		// TODO Auto-generated method stub N�r der er skat mat skal denne s�ttes
-		return isMate;
-	}
 
 }
