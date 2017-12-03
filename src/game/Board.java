@@ -88,20 +88,5 @@ public class Board {
 		// TODO Auto-generated method stub N�r der er skat mat skal denne s�ttes
 		return isMate;
 	}
-	public Board clone(){
-		Board clonedBoard = new Board();
-		Piece[][] newBoard = new Piece[8][8];
-		for (int i = 0; i < newBoard.length; i++) {
-			for (int j = 0; j < newBoard.length; j++) {
-				newBoard[j][i] = this.getBoard()[j][i];
-			}
-		}
-		clonedBoard.setBoard(newBoard);
-		return clonedBoard;
-		
-	}
 
-
-
-	
 }

@@ -5,53 +5,57 @@ import Utility.Position;
 import algo.AlphaBeta;
 import controller.BoardController;
 import game.Board;
+import game.Program;
+import logic.Move;
 
 public class Game {
-	Board board;
 	BoardController bc; 
 	Scanner scanner;
 	AlphaBeta ab;
 	
-	int x = -1, y = -1;
+	int x1, y1, x2, y2;;
 	
 	public Game(){
-		board = new Board();
-		board.generateStandardBoard();
-		bc = new BoardController(board.getBoard());
+		Program.b = new Board();
+		Program.b.generateStandardBoard();
+		bc = new BoardController();
 		scanner = new Scanner(System.in);
 		ab = new AlphaBeta();
 	}
 	
 	public void startGame(){
 		while(true){
+			//TODO: Check kings
+			
+			
 			bc.printBoard();
-			if(bc.isWhiteTurn){
+			if(Program.playerTurn){
 				System.out.print("Vælg et brik: ");
-				getInput();
-				bc.selectChessPiece(x, y);
-				Position oldPos = new Position(x, y);
-				if(bc.getSelectedPiece() != null){
-					System.out.print("Hvor skal den rykkes: ");
-					getInput();
-					try{
-						Position newPos = new Position(x, y);
-						if(bc.moveChessPiece(newPos, oldPos))
-							bc.setPlayerTurn(!bc.isWhiteTurn);
-						else
-							System.out.println("Træk ikke muligt");
-						//bc.printBoardR();
-					}catch(Exception e){
-						e.printStackTrace();
-					}	
+				x1 = getXInput();
+				y1 = getYInput();
+				System.out.print("Hvor skal den rykkes: ");
+				x2 = getXInput();
+				y2 = getYInput();
+				Move m = new Move(new Position(x1,y1), new Position(x2,y2), Program.b.getPieceAt(x1, y1), Program.b.getPieceAt(x2, y2));
+				try {
+					bc.execute(m, Program.playerTurn);
+					Program.playerTurn = !Program.playerTurn;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}else{
-				ab.bestMove(bc.board, 2, bc.isWhiteTurn);
-				bc.setPlayerTurn(!bc.isWhiteTurn);
-				//bc.printBoardR();
+				try {
+					long temp = System.currentTimeMillis();
+					System.out.println(Program.playerTurn);
+					ab.bestMove(6, Program.playerTurn);
+					System.out.println(System.currentTimeMillis() - temp);
+					Program.playerTurn = !Program.playerTurn;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}	
-			if(bc.isGameOver){
-				bc.setPlayerTurn(true);
-			}
 				
 		}
 	}
@@ -60,9 +64,9 @@ public class Game {
 	/**
 	 *  sørger for at man kan indtaste positioner på en rigtig bræt system fx e4 og konvertere til array indekser
 	 */
-	void getInput(){
+	int getXInput(){
 		String pos= scanner.next();
-		x = 8;
+		int x = 8;
 		switch(pos.substring(0, 1).toLowerCase()){
 			case("a"): x -= 1; break;
 			case("b"): x -= 2; break;
@@ -76,14 +80,21 @@ public class Game {
 				System.out.println("Ugyldigt input");break;				
 			}
 		}
+		return x;
+	}
+	
+	int getYInput(){
+		String pos= scanner.next();
+		int y = -1;
 		try{
-			y = Integer.parseInt(pos.substring(1, 2))-1;
+			y = Integer.parseInt(pos.replaceAll(" ", ""))-1;
 			if(y > 8 || y < 1){
 				System.out.println("ugyldig input");
 			}
 		} catch (Exception e){
 			System.out.println("ugyldig input");
 		}
+		return y;
 	}
 	
 	

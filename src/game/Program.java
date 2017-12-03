@@ -11,31 +11,34 @@ import pieces.Piece;
 
 public class Program {
 
-
+	public static boolean playerTurn = true; //White always starts
+	public static Board b;
 
 	public static void main(String[] args) {
 //		//Initialize board
-		Board b = new Board();
+		b = new Board();
 		b.generateStandardBoard();
  		
-		BoardController bc = new BoardController(b.getBoard());
+		BoardController bc = new BoardController();
 	//	new BoardPersistence().loadBoard(bc);
 		
 		AlphaBeta ab = new AlphaBeta();
 
-		bc.printBoard();
+
 		
 		while(!bc.isGameOver){
-			long startTime = System.currentTimeMillis();
-			ab.bestMove(bc.board, 4,bc.isWhiteTurn);
-			System.out.println(System.currentTimeMillis() -startTime);
-			if(bc.isWhiteTurn){
-				bc.setPlayerTurn(false);
-			}else{
-				bc.setPlayerTurn(true);
-				
-			}
 			bc.printBoard();
+			long startTime = System.currentTimeMillis();
+			try {
+				ab.bestMove(6, playerTurn);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
+			System.out.println(System.currentTimeMillis() -startTime);
+			bc.printBoard();
+			playerTurn = !playerTurn;
 		}
 
 	}
