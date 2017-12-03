@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Utility.Position;
 import controller.BoardController;
+import game.Board;
 
 public class Rook extends Piece{
 
@@ -26,7 +27,7 @@ public class Rook extends Piece{
 	}
 
 	@Override
-	public ArrayList<Position> possibleMoves(Position pos,Piece[][] board){
+	public ArrayList<Position> possibleMoves(Position pos,Board board){
 
 		ArrayList<Position> moves = new ArrayList<Position>();
 
@@ -40,7 +41,7 @@ public class Rook extends Piece{
 			if (i >= 8)
 				break;
 
-			piece = board[i][pos.y];
+			piece = board.getBoard()[i][pos.y];
 			if(piece == null)
 				moves.add(new Position(i, pos.y));
 				//moves[i][currentY] = true;
@@ -59,7 +60,7 @@ public class Rook extends Piece{
 			if (i < 0)
 				break;
 
-			piece = board[i][pos.y];
+			piece = board.getBoard()[i][pos.y];
 			if(piece == null)
 				moves.add(new Position(i, pos.y));
 				//moves[i][currentY] = true;
@@ -77,7 +78,7 @@ public class Rook extends Piece{
 			if (i >= 8)
 				break;
 
-			piece = board[pos.x][i];
+			piece = board.getBoard()[pos.x][i];
 			if(piece == null)
 				
 				moves.add(new Position(pos.x, i));
@@ -95,7 +96,7 @@ public class Rook extends Piece{
 			if (i < 0)
 				break;
 
-			piece = board[pos.x][i];
+			piece = board.getBoard()[pos.x][i];
 			if(piece == null)
 				moves.add(new Position(pos.x, i));
 			else{

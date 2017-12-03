@@ -46,7 +46,7 @@ public abstract class Piece {
 	}
 	
 	
-	public ArrayList<Position> possibleMoves(Position pos, Piece[][] board){
+	public ArrayList<Position> possibleMoves(Position pos, Board board){
 		return new ArrayList<Position>();
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Utility.Position;
 import controller.BoardController;
+import game.Board;
 
 public class Knight extends Piece{
 
@@ -25,7 +26,7 @@ public class Knight extends Piece{
 		this.type = Type.Knight;
 	}
 	@Override
-	public ArrayList<Position> possibleMoves(Position pos, Piece[][] board){
+	public ArrayList<Position> possibleMoves(Position pos, Board board){
 
 		ArrayList<Position> moves = new ArrayList<Position>();
 
@@ -49,10 +50,10 @@ public class Knight extends Piece{
 		return moves;
 	}
 
-	public void knightMove(int x, int y, ArrayList<Position> r, Piece[][] board){
+	public void knightMove(int x, int y, ArrayList<Position> r, Board board){
 		Piece c;
 		if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-			c = board[x][y];
+			c = board.getBoard()[x][y];
 			if (c == null) {
 				r.add(new Position(x,y));
 			}else if(isWhite != c.isWhite)

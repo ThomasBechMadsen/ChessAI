@@ -6,7 +6,8 @@ import pieces.*;
 public class Board {
 	private Piece[][] board;
 	public boolean isWhiteTurn = true;
-	public boolean isMate = false;
+	public boolean isWhiteCheck = false;
+	public boolean isBlackCheck = false;
 
 	
 	public Piece[][] getBoard() {
