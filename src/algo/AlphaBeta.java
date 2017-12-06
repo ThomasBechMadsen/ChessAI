@@ -21,8 +21,8 @@ public class AlphaBeta {
 
 
 	public  int[] bestMove(int depth, boolean isWhiteTurn) throws Exception{
-
 		int score = alphaBetaMax(Integer.MIN_VALUE, Integer.MAX_VALUE, depth, isWhiteTurn);
+		
 		bc.execute(bMove, isWhiteTurn);
 		//		System.out.println("depth 8 " + leafCounter);
 		//		System.out.println("depth 7 " + depth1);
@@ -69,17 +69,17 @@ public class AlphaBeta {
 		moveCounter++;
 
 		// Denne if kan gøres mere specifik, returnere -uendelig hvis dette er mate, 0 hvis remis;
-		if(depthLeft == 0 || bc.isGameOver){
+		if(depthLeft == 0){
 			leafCounter++;
 			return Program.b.evaluateBoard();// evaluation;
 		}
-		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhiteTurn, Program.b.getBoard()); 
+		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhiteTurn, Program.b); 
 		for (Move move : moves) {
 			int	score = -1;
 			try {
 				bc.execute(move, isWhiteTurn);
 				
-				score = alphaBetaMin(alpha, beta, depthLeft -1, isWhiteTurn);
+				score = alphaBetaMin(alpha, beta, depthLeft -1, !isWhiteTurn);
 				
 				bc.undo(move, isWhiteTurn);
 			} catch (Exception e) {
@@ -134,21 +134,21 @@ public class AlphaBeta {
 
 		// Denne if kan gøres mere specifik, returnere -uendelig hvis dette er mate, 0 hvis remis;
 		//System.out.println(depthLeft + " minimizer  counter =  " + counter++);
-		if(depthLeft == 0 || bc.isGameOver){
+		if(depthLeft == 0){
 			leafCounter++;
 
 
 			return Program.b.evaluateBoard();// evaluation;
 		}
 
-		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhiteTurn, Program.b.getBoard()); 
+		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhiteTurn, Program.b); 
 		for (Move move : moves) {
 			int	score = -1;
 			
 			try {
 				bc.execute(move, isWhiteTurn);
 	
-				score = alphaBetaMax(alpha, beta, depthLeft -1, isWhiteTurn);
+				score = alphaBetaMax(alpha, beta, depthLeft -1, !isWhiteTurn);
 				
 				bc.undo(move, isWhiteTurn);
 			} catch (Exception e) {

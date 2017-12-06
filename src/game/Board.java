@@ -89,7 +89,7 @@ public class Board {
 			for(int col = 0; col < 8; col++){
 				Piece p = board[col][row];
 				if(p != null){
-					if(p.isWhite){
+					if(p.isWhite == Program.playerTurn){
 						score += (p.getBaseValue() + p.getPositionalValue(row,col));
 						//System.out.println("Score white "  +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
 					}

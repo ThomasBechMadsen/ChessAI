@@ -26,17 +26,15 @@ public class Program {
 
 
 		
-		while(!bc.isGameOver){
+		while(!bc.isGameOver()){
 			bc.printBoard();
-			long startTime = System.currentTimeMillis();
 			try {
-				ab.bestMove(6, playerTurn);
+				ab.bestMove(5, playerTurn);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return;
 			}
-			System.out.println(System.currentTimeMillis() -startTime);
 			bc.printBoard();
 			playerTurn = !playerTurn;
 		}

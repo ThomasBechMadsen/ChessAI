@@ -21,8 +21,6 @@ public class BoardController {
 	
 	public List<Piece> activeChessPieces;
 
-	public boolean isGameOver;
-
 	public BoardController(){
 		Instance = this;
 		activeChessPieces = new ArrayList<Piece>();
@@ -121,11 +119,23 @@ public class BoardController {
 		activeChessPieces.add(piece);
 	}
 	
-	private void endGame(){
-		System.out.println("Game Over!");
-		isGameOver = true;
-		activeChessPieces.removeAll(activeChessPieces);
-		Program.b.generateStandardBoard();
+	public boolean isGameOver(){
+		boolean whiteKingFound = false;
+		boolean blackKingFound = false;
+		for(int i = 8; i >= 0; i--){
+			for(int j = 8 ; j > 0 ; j--){
+				if(Program.b.getBoard()[j-1][i-1] instanceof King && Program.b.getBoard()[j-1][i-1].isWhite){
+					whiteKingFound = true;
+				}
+				if(Program.b.getBoard()[j-1][i-1] instanceof King && !Program.b.getBoard()[j-1][i-1].isWhite){
+					blackKingFound = true;
+				}
+				if(whiteKingFound && blackKingFound){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public void printBoard(){
@@ -147,7 +157,6 @@ public class BoardController {
 			System.out.println();
 		}
 
-		System.out.println("\n");
 		if(Program.playerTurn)
 			System.out.println("Det er WHITEs tur");
 		else
