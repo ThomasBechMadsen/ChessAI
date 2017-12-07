@@ -155,11 +155,6 @@ public class BoardController {
 					System.out.print("------	|  ");
 			}
 			System.out.println();
-		}
-
-		if(Program.playerTurn)
-			System.out.println("Det er WHITEs tur");
-		else
-			System.out.println("Det er BLACKs tur");		
+		}	
 	}
 }
