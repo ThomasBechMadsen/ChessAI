@@ -110,4 +110,145 @@ public class Bishop extends Piece{
 		}
 		return moves;
 	}
+	
+	@Override
+	public void calculateThreat(Position pos, Board board){
+
+		boolean possiblePin = false;
+		Piece possiblePinnedPiece = null;
+		boolean[][] threat;
+		List<Piece> pinned;
+
+
+		if(this.isWhite){
+			threat = board.whiteThreat;
+			pinned = board.blackPinned;
+		}
+		else{
+			threat = board.blackThreat;
+			pinned = board.whitePinned;
+		}
+
+
+
+		//down right
+		int y = pos.y;
+		int x = pos.x;
+		for ( x = pos.x+1; x < 8; x++) {
+			y--;
+			if(x > 7 || y < 0){
+				break;
+			}
+			Piece p = board.getBoard()[x][y];
+			if(!possiblePin){
+				threat[x][y]= true;
+				if(p != null){
+					possiblePinnedPiece = p;
+					threat[x][y]= true;
+					possiblePin = true;
+				}
+			}else{
+				threat[x][y] = false;
+				if(p != null){
+					if(p.type == Type.KING){
+						pinned.add(possiblePinnedPiece);
+						break;
+					}
+					else{
+						break;
+					}
+				}
+			}
+		}
+		//up right
+		possiblePin = false;
+		y = pos.y;
+		for (x = pos.x+1; x < 8; x++) {
+			y++;
+			if(x > 7 || y > 7){
+				break;
+			}
+			Piece p = board.getBoard()[x][y];
+			if(!possiblePin){
+				threat[x][y]= true;
+				if(p != null){
+					possiblePinnedPiece = p;
+					threat[x][y]= true;
+					possiblePin = true;
+				}
+			}else{
+				threat[x][y] = false;
+				if(p != null){
+					if(p.type == Type.KING){
+						pinned.add(possiblePinnedPiece);
+						break;
+					}
+					else{
+						break;
+					}
+				}
+			}
+		}
+		//up left
+		possiblePin = false;
+		x = pos.x;
+		for (y = pos.y+1; y < 8; y++) {
+			x--;
+			if(x < 0 || y > 7){
+				break;
+			}
+			Piece p = board.getBoard()[x][y];
+			if(!possiblePin){
+				threat[x][y]= true;
+				if(p != null){
+					possiblePinnedPiece = p;
+					threat[x][y]= true;
+					possiblePin = true;
+				}
+			}else{
+				threat[x][y] = false;
+				if(p != null){
+					if(p.type == Type.KING){
+						pinned.add(possiblePinnedPiece);
+						break;
+					}
+					else{
+						break;
+					}
+				}
+			}
+		}
+		//left down
+		possiblePin = false;
+		x = pos.x;
+		for (y = pos.y-1; y >
+		0; y--) {
+			x--;
+			if(x < 0 || y < 0){
+				break;
+			}
+			Piece p = board.getBoard()[x][y];
+			if(!possiblePin){
+				threat[x][y]= true;
+				if(p != null){
+					possiblePinnedPiece = p;
+					threat[x][y]= true;
+					possiblePin = true;
+				}
+			}else{
+				threat[x][y] = false;
+				if(p != null){
+					if(p.type == Type.KING){
+						pinned.add(possiblePinnedPiece);
+						break;
+					}
+					else{
+						break;
+					}
+				}
+			}
+		}
+
+		
+	}
 }

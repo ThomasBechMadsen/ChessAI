@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Utility.Position;
 import controller.BoardController;
 import game.Board;
+import game.Program;
 
 public class Knight extends Piece{
 
@@ -18,7 +19,7 @@ public class Knight extends Piece{
 			{-5,-3,-1,0,0,-1,-3,-5},
 			{-7,-5,-4,-2,-2,-4,-5,-7}
 	};
-	
+
 	public Knight(boolean friendly) {
 		super(friendly);
 		baseValue = 300;
@@ -59,6 +60,46 @@ public class Knight extends Piece{
 			}else if(isWhite != c.isWhite)
 				r.add(new Position(x,y));
 		}
-		
+	}
+	@Override
+	public void calculateThreat(Position pos, Board b){
+		boolean[][] threat;
+		if(this.isWhite){
+			threat = Program.b.whiteThreat;
+		}else{
+			threat = Program.b.blackThreat;
+		}
+
+
+		knightThreat(pos.x -1, pos.y +2); 		
+		// UpRight
+		knightThreat(pos.x +1, pos.y +2); 		
+		// RightUp
+		knightThreat(pos.x +2, pos.y +1); 		
+		// RightDown
+		knightThreat(pos.x +2, pos.y -1); 		
+		// LeftUp
+		knightThreat(pos.x -2, pos.y +1); 		
+		// LeftDown
+		knightThreat(pos.x -2, pos.y -1); 
+		// DownLeft
+		knightThreat(pos.x -1, pos.y -2); 		
+		// DownRight
+		knightThreat(pos.x +1, pos.y -2); 
+
+	}
+	public void knightThreat(int x, int y){
+		boolean[][] threat;
+		if(this.isWhite){
+			threat = Program.b.whiteThreat;
+		}else{
+			threat = Program.b.blackThreat;
+		}
+
+
+		if (x >= 0 && x < 8 && y >= 0 && y < 8) {
+			threat[x][y] = true;
+
+		}
 	}
 }

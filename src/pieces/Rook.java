@@ -1,6 +1,7 @@
 package pieces;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Utility.Position;
 import controller.BoardController;
@@ -18,6 +19,7 @@ public class Rook extends Piece{
 			{3,4,4,6,6,4,4,3},
 			{0,0,0,0,0,0,0,0}
 	};
+	boolean pieceDetected = false;
 
 	public Rook(boolean friendly) {
 		super(friendly);
@@ -109,58 +111,132 @@ public class Rook extends Piece{
 		return moves;
 
 	}
-
-	public void calculateThread(Position pos, Board board) {
+	@Override
+	public void calculateThreat(Position pos, Board board) {
+		boolean possiblePin = false;
+		Piece possiblePinnedPiece = null;
 		boolean[][] threat;
+		List<Piece> pinned;
+
+
 		if(this.isWhite){
 			threat = board.whiteThreat;
+			pinned = board.blackPinned;
 		}
 		else{
 			threat = board.blackThreat;
+			pinned = board.whitePinned;
 		}
 
-		int posY = pos.y;
-		int posX = pos.x;
 
+
+		int y = pos.y;
+		int dY = pos.y+1;
+		possiblePin = false;
 		//right
-		for(int x = posX+1 ;x<8;x++){
-			addThreatHorizontal(board, threat, posY, x);
-		}
-
-		//Left
-		for(int x = posX-1; x >=0; x--){
-			addThreatHorizontal(board,threat, posY,x);
-		}
-
-		//Up
-		for(int y = posY+1; y < 8; y++){
-			addThreatHorizontal(board,threat, y,posX);
-		}
-		//Down
-		//Left
-		for(int y = posY-1; y >=0; y--){
-			addThreatHorizontal(board,threat, y, posX);
-			System.out.println(y);
-		}
-
-	}
-
-	private void addThreatHorizontal(Board board, boolean[][] threat, int y, int x) {
-		Piece target =board.getBoard()[x][y];
-
-		if(target == null){
-			threat[x][y] = true;
-		}else if(board.getBoard()[x][y] != null) {
-			System.out.println(board.getBoard()[x][y].type);
-			if(target.isWhite != isWhite){
-				threat[x][y] = true;
-				return;
+		for (int x = pos.x+1; x < 8; x++) {
+			Piece p = board.getBoard()[x][y];
+			if(!possiblePin){
+				threat[x][y]= true;
+				if(p != null){
+					possiblePinnedPiece = p;
+					threat[x][y]= true;
+					possiblePin = true;
+					
+				}
 			}else{
-				return;
-		} 
+				threat[x][y] = false;
+				if(p != null){
+					if(p.type == Type.KING){
+						pinned.add(possiblePinnedPiece);
+						break;
+					}
+					else{
+						break;
+					}
+				}
+			}
+			//
+			//		
+		}
+		//left
+		possiblePin = false;
+		for (int x = pos.x-1; x >= 0; x--) {
 
+			Piece p = board.getBoard()[x][y];
+			if(!possiblePin){
+				threat[x][y]= true;
+				if(p != null){
+					possiblePinnedPiece = p;
+					threat[x][y]= true;
+					possiblePin = true;
+				}
+			}else{
+				threat[x][y] = false;
+				if(p != null){
+					if(p.type == Type.KING){
+						pinned.add(possiblePinnedPiece);
+						break;
+					}
+					else{
+						break;
+					}
+				}
+			}
+		}
+		//up
+		int	x = pos.x;
+		possiblePin = false;
+		for ( y = pos.y+1; y < 8; y++) {
+
+			Piece	p = board.getBoard()[x][y];
+			if(!possiblePin){
+				threat[x][y]= true;
+				if(p != null){
+					possiblePinnedPiece = p;
+					threat[x][y]= true;
+					possiblePin = true;
+				}
+			}else{
+				threat[x][y] = false;
+				if(p != null){
+					if(p.type == Type.KING){
+						pinned.add(possiblePinnedPiece);
+						break;
+					}
+					else{
+						break;
+					}
+				}
+			}
+		}
+		//down
+		possiblePin = false;
+		for (y = pos.y-1; y >= 0; y--) {
+
+			Piece p = board.getBoard()[x][y];
+			if(!possiblePin){
+				threat[x][y]= true;
+				if(p != null){
+					possiblePinnedPiece = p;
+					threat[x][y]= true;
+					possiblePin = true;
+				}
+			}else{
+				threat[x][y] = false;
+				if(p != null){
+					if(p.type == Type.KING){
+						pinned.add(possiblePinnedPiece);
+						break;
+					}
+					else{
+						break;
+					}
+				}
+			}
+		}
 	}
 }
 
 
-}
+

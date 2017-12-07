@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import controller.BoardController;
 import game.Board;
+import game.Program;
 import pieces.Bishop;
 import pieces.King;
 import pieces.Knight;
@@ -17,8 +18,8 @@ import pieces.Rook;
 
 public class BoardPersistence {
 
-	public void loadBoard(BoardController bc){
-		Piece[][] board = new Piece[8][8];
+	public void loadBoard(){
+		Piece[][] board = Program.b.getBoard();
 
 		try {
 			BufferedReader br =  new BufferedReader(new FileReader("board.txt"));
@@ -64,10 +65,12 @@ public class BoardPersistence {
 						board[i][rows]=queen;
 						break;
 						case 'k' :Piece kingEnemy = new King(false); 
+						Program.b.blackKing = new Position(i, rows);
 						board[i][rows]=kingEnemy;
 						break;
 						case 'K' :	Piece king = new King(true); 
 						board[i][rows]=king;
+						Program.b.whiteKing = new Position(i, rows);
 						break;
 
 						default:
@@ -77,9 +80,9 @@ public class BoardPersistence {
 				}
 				rows++;
 				if(line.equalsIgnoreCase("white")){
-					bc.setPlayerTurn(true);
+					Program.playerTurn = true;
 				}else if(line.equalsIgnoreCase("black")){
-					bc.setPlayerTurn(false);
+					Program.playerTurn = false;
 				}
 			}
 		} catch (IOException e) {
@@ -88,8 +91,8 @@ public class BoardPersistence {
 		}
 
 
-
-		bc.setBoard(board);
+Program.b.calculateThread();
+		
 
 	}
 }
