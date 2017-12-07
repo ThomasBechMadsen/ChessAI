@@ -91,7 +91,7 @@ public class BoardPersistence {
 		}
 
 
-Program.b.calculateThread();
+Program.b.calculateThreat();
 		
 
 	}
