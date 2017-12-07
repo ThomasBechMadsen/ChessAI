@@ -120,7 +120,7 @@ public class Board {
 		return score;
 	}
 
-	public void calculateThread(){
+	public void calculateThreat(){
 		whitePinned = new ArrayList<>();
 		blackPinned = new ArrayList<>();
 		
@@ -135,22 +135,12 @@ public class Board {
 		}
 		if(blackThreat[whiteKing.x][whiteKing.y]){
 			whiteCheck = true;
-			System.out.println("hvid er skak");
+		
 		}
 		if(whiteThreat[blackKing.x][blackKing.y]){
 			blackCheck = true;
-			System.out.println("sort er skak");
 		}
-		for (int k = 0; k < blackThreat.length; k++) {
-			for (int l = 0; l < blackThreat.length; l++) {
-				if(whiteThreat[l][k]){
-				System.out.print("w");
-				}else{
-					System.out.print("-");
-				}
-			}
-			System.out.println();
-		}
+	
 	}
 
 

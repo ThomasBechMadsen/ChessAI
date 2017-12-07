@@ -32,7 +32,7 @@ public class King extends Piece{
 	public ArrayList<Position> possibleMoves(Position pos, Board board){
 
 		ArrayList<Position> moves = new ArrayList<Position>() ;
-		Piece c;
+
 		boolean[][] threat;
 		if(this.isWhite){
 			threat = board.blackThreat;
@@ -41,75 +41,25 @@ public class King extends Piece{
 
 		}
 
-		int i, j;
+		Position[] positions = getPositions(pos);
 
-		//Top Side
-		i = pos.x - 1;
-		j = pos.y + 1;
-		if (pos.y != 7) {
-			for (int k = 0; k < 3; k++) {
-				if(threat[i][j]){
-					break;
-				}
-				else if (i >= 0 && i < 8) {
-					c = board.getBoard() [i][j];
-					if (c == null)
-						moves.add(new Position(i, j));
-					else if (isWhite != c.isWhite)
-						moves.add(new Position(i, j));
-				}
-				i++;
-			}
-		}
+		for (Position position : positions) {
 
-		//Top Side
-		i = pos.x - 1;
-		j = pos.y - 1;
-		if (pos.y != 0) {
-			for (int k = 0; k < 3; k++) {
-				if (i >= 0 && i < 8) {
-					if(threat[i][j]){
-						break;
+
+			if(position.x >= 0 && position.x <8 && position.y >=0 && position.y <7){ // Check for out of boundt
+				if(!threat[position.x][position.y]){ // Hvis feltet er truet kan kongen ikke være der
+					Piece p = board.getPieceAt(position.x, position.y); // gemmer feltet 
+
+					if(p != null){ // hvis feltet ikke er tom, og det er modstander brik, så tilføj
+						if(p.isWhite != isWhite){
+							moves.add(position);
+						}
+					}else{
+						moves.add(position); // hvis det er tomt, så tilføj det
 					}
-					c = board.getBoard() [i][j];
-					if (c == null)
-						moves.add(new Position(i, j));
-					else if (isWhite != c.isWhite)
-						moves.add(new Position(i, j));
 				}
-				i++;
 			}
 		}
-
-
-		//Middle Left
-		if(pos.x != 0){
-
-			c = board.getBoard() [pos.x - 1][ pos.y];
-			if(threat[pos.x-1][pos.y]){
-
-			}else if (c == null){
-				moves.add(new Position(pos.x - 1, pos.y));
-			}else if (isWhite != c.isWhite){
-				moves.add(new Position(pos.x -1 ,pos.y));
-			}
-			//r[pos.x - 1][ pos.y] = true;
-		}
-
-		//Middle Right
-		if(pos.x != 7){
-			c = board.getBoard() [pos.x + 1][ pos.y];
-			if(threat[pos.x+1][pos.y]){
-
-			}
-			else if (c == null){
-				moves.add(new Position(pos.x+1,pos.y));
-				//r[pos.x + 1][ pos.y] = true;
-			}else if (isWhite != c.isWhite)
-				moves.add(new Position(pos.x + 1, pos.y));
-			// r [pos.x + 1][pos.y] = true;
-		}
-
 		return moves;
 	}
 
@@ -123,7 +73,6 @@ public class King extends Piece{
 		else{
 			threat = board.blackThreat;
 		}
-
 		int x = pos.x;
 		int y = pos.y;
 
@@ -136,7 +85,37 @@ public class King extends Piece{
 			}
 		}
 		threat[pos.x][pos.y] = false;
+	}
 
+	public void detectThreat(Position pos, Board board){
+		
+		ArrayList<Position> sources = new ArrayList<>();
 
+		for(int y = 0 ; y < 8; y++){
+			for (int x = 0; x < 8; x++) {
+				Piece p = board.getBoard()[x][y];
+				if(p != null){
+					if(p.isWhite != this.isWhite);
+					sources.addAll(p.possibleMoves(new Position(x, y), board));
+				}
+			}
+		}
+		for (Position position : sources) {
+			//if(position.equals( ))
+		}
+	
+	}
+	public Position[] getPositions(Position pos){
+		Position downRight = new Position(pos.x-1, pos.y-1);
+		Position downMiddle= new Position(pos.x, pos.y-1);
+		Position downLeft= new Position(pos.x+1, pos.y-1);
+		Position right = new Position(pos.x-1, pos.y);;
+		Position left= new Position(pos.x+1, pos.y-1);
+		Position upRight= new Position(pos.x-1, pos.y+1);
+		Position upMiddle = new Position(pos.x, pos.y+1);
+		Position upLeft = new Position(pos.x+1, pos.y+1);
+		Position[] positions = {downLeft,downRight, downMiddle, right, left, upLeft, upMiddle, upRight};
+		return positions;
 	}
 }
+

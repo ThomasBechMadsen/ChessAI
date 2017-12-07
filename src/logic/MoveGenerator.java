@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Utility.Position;
 import controller.BoardController;
@@ -26,6 +27,13 @@ public class MoveGenerator {
 	public static  ArrayList<Move> generateMoves(boolean isWhite, Board b){
 		ArrayList<Move> moves = new ArrayList<>();
 		Piece[][] board = b.getBoard();
+		
+		if((isWhite && b.isWhiteCheck) || (!isWhite && b.isBlackCheck)){
+		     moves = avoidCheckMoves(isWhite, b);
+		     return moves;
+		}
+			
+		
 
 		// Går igennem brættet og finder brikkerne der måtte være.
 		for(int i = 0; i < 8; i++){
@@ -56,12 +64,27 @@ public class MoveGenerator {
 							}
 						}
 					}
-
 				}
-
 			}
-
 		}
+		return moves;
+	}
+
+	private static ArrayList<Move> avoidCheckMoves(boolean isWhite, Board b) {
+		System.out.println("avoiding");
+		ArrayList<Move> moves = new ArrayList<>();
+		Position kingPos = null;
+		if(isWhite){
+			kingPos = b.whiteKing;
+		}else{
+			kingPos = b.blackKing;
+		}
+		Piece king = b.getPieceAt(b.whiteKing.x, b.whiteKing.y);
+		for (Position pos : king.possibleMoves(kingPos, b)) {
+			Move move = new Move(kingPos, pos, king, b.getPieceAt(pos.x, pos.y));
+			moves.add(move);
+		}
+		
 		return moves;
 	}
 }
