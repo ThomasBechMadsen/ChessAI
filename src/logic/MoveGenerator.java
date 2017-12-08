@@ -101,6 +101,8 @@ public class MoveGenerator {
 			Move move = new Move(kingPos, pos, king, b.getPieceAt(pos.x, pos.y));
 			moves.add(move);
 		}
+		
+		
 
 		return moves;
 	}
