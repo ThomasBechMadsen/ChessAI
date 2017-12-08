@@ -1,13 +1,10 @@
-
-package controller;
+package game;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Utility.Position;
-import game.Board;
-import game.Program;
-import logic.Move;
+import dataContainers.Move;
 import pieces.Bishop;
 import pieces.King;
 import pieces.Knight;
@@ -15,7 +12,6 @@ import pieces.Pawn;
 import pieces.Piece;
 import pieces.Queen;
 import pieces.Rook;
-import pieces.Type;
 
 public class BoardController {
 	public static BoardController Instance;
@@ -32,7 +28,6 @@ public class BoardController {
 		legalPiece(move.getFrom().x, move.getFrom().y, isWhite);
 		legalMove(move);
 		move(move);
-		Program.b.calculateThreat();
 		//System.out.println("Execute");
 		//printBoard();
 	}
@@ -40,7 +35,6 @@ public class BoardController {
 	public void undo(Move move, boolean isWhite) throws Exception{
 		legalPiece(move.getTo().x, move.getTo().y, isWhite);
 		reverseMove(move);
-		Program.b.calculateThreat();
 		//System.out.println("Undo:");
 		//printBoard();
 	}
@@ -59,7 +53,7 @@ public class BoardController {
 		// return if the player is moving the wrong color
 		if (Program.b.getBoard() [posX][posY].isWhite != isWhite){
 			System.out.println("pos x = " + posX + " posy= "  + posY );
-			printBoard();
+			Program.b.printBoard();
 			System.exit(1);
 			throw new Exception("Selected piece is wrong colour");
 		}
@@ -141,25 +135,4 @@ public class BoardController {
 		return true;
 	}
 	
-	public void printBoard(){
-		for(int i = 8; i >= 0; i--){
-			if(i>0)
-				System.out.printf("%d: ",(i));
-			for(int j = 8 ; j > 0 ; j--){
-				if(i == 0)
-					System.out.printf("	%c	|  ",('i'-j));
-				else if(Program.b.getBoard()[j-1][i-1] != null && i>=0  && i <= 8){
-					if(Program.b.getBoard()[j-1][i-1].isWhite)
-						System.out.printf(" %s	|  ", Program.b.getBoard()[j-1][i-1].type.toString().toUpperCase());
-					else
-						System.out.printf(" %s	|  ", Program.b.getBoard()[j-1][i-1].type.toString().toLowerCase());
-				}
-				else
-					System.out.print("------	|  ");
-			}
-			System.out.println();
-		}	
-	}
 }
-
-

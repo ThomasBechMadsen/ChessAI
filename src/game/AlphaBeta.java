@@ -1,12 +1,8 @@
-package algo;
+package game;
 
 import java.util.ArrayList;
 
-import controller.BoardController;
-import game.Board;
-import game.Program;
-import logic.Move;
-import logic.MoveGenerator;
+import dataContainers.Move;
 import pieces.Piece;
 
 public class AlphaBeta {
@@ -71,7 +67,7 @@ public class AlphaBeta {
 		// Denne if kan gøres mere specifik, returnere -uendelig hvis dette er mate, 0 hvis remis;
 		if(depthLeft == 0){
 			leafCounter++;
-			return Program.b.evaluateBoard();// evaluation;
+			return evaluateBoard();// evaluation;
 		}
 		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhiteTurn, Program.b); 
 		for (Move move : moves) {
@@ -138,7 +134,7 @@ public class AlphaBeta {
 			leafCounter++;
 
 
-			return Program.b.evaluateBoard();// evaluation;
+			return evaluateBoard();// evaluation;
 		}
 
 		ArrayList<Move> moves = MoveGenerator.generateMoves(isWhiteTurn, Program.b); 
@@ -174,6 +170,26 @@ public class AlphaBeta {
 
 	}
 
-
+	public int evaluateBoard(){
+		int score = 0;
+		for(int row = 0; row < 8; row++){
+			for(int col = 0; col < 8; col++){
+				Piece p = Program.b.getBoard()[col][row];
+				if(p != null){
+					if(p.isWhite == Program.playerTurn){
+						score += (p.getBaseValue() + p.getPositionalValue(row,col));
+						//System.out.println("Score white "  +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
+					}
+					else{
+						//Should get opposite positional value
+						score -= (p.getBaseValue() + p.getPositionalValue(row,col));
+						//System.out.println("Score black " +p.type+ " :"+(p.getBaseValue() + p.getPositionalValue(row,col)));
+					}
+				}
+			}
+		}
+		//System.out.println(score);
+		return score;
+	}
 	
 }

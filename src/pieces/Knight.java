@@ -3,28 +3,13 @@ package pieces;
 import java.util.ArrayList;
 
 import Utility.Position;
-import controller.BoardController;
-import game.Board;
-import game.Program;
+import dataContainers.Board;
+import game.BoardController;
 
 public class Knight extends Piece{
-
-	public int[][] positionalValue = {
-			{-2,2,7,9,9,7,2,-2},
-			{1,4,12,13,13,12,4,1},
-			{5,11,18,19,19,18,11,5},
-			{3,10,14,14,14,14,10,3},
-			{0,5,8,9,9,8,5,0},
-			{-3,1,3,4,4,3,1,-3},
-			{-5,-3,-1,0,0,-1,-3,-5},
-			{-7,-5,-4,-2,-2,-4,-5,-7}
-	};
-
+	
 	public Knight(boolean friendly) {
 		super(friendly);
-		baseValue = 300;
-		super.setPositionalValue(positionalValue);
-		this.type = Type.Knight;
 	}
 	@Override
 	public ArrayList<Position> possibleMoves(Position pos, Board board){
@@ -60,46 +45,23 @@ public class Knight extends Piece{
 			}else if(isWhite != c.isWhite)
 				r.add(new Position(x,y));
 		}
+		
 	}
 	@Override
-	public void calculateThreat(Position pos, Board b){
-		boolean[][] threat;
-		if(this.isWhite){
-			threat = Program.b.whiteThreat;
-		}else{
-			threat = Program.b.blackThreat;
-		}
-
-
-		knightThreat(pos.x -1, pos.y +2); 		
-		// UpRight
-		knightThreat(pos.x +1, pos.y +2); 		
-		// RightUp
-		knightThreat(pos.x +2, pos.y +1); 		
-		// RightDown
-		knightThreat(pos.x +2, pos.y -1); 		
-		// LeftUp
-		knightThreat(pos.x -2, pos.y +1); 		
-		// LeftDown
-		knightThreat(pos.x -2, pos.y -1); 
-		// DownLeft
-		knightThreat(pos.x -1, pos.y -2); 		
-		// DownRight
-		knightThreat(pos.x +1, pos.y -2); 
-
+	public int getBaseValue() {
+		return PieceBaseValue.knight;
 	}
-	public void knightThreat(int x, int y){
-		boolean[][] threat;
-		if(this.isWhite){
-			threat = Program.b.whiteThreat;
-		}else{
-			threat = Program.b.blackThreat;
+	@Override
+	public int getPositionalValue(int x, int y) {
+		if(isWhite){
+			return PieceSquareTables.knight[7-x][7-y]; //Should give the opposite positional value
 		}
-
-
-		if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-			threat[x][y] = true;
-
-		}
+		
+		return PieceSquareTables.knight[x][y];
+	}
+	@Override
+	public void calculateThreat(Position pos, Board board) {
+		// TODO Auto-generated method stub
+		
 	}
 }

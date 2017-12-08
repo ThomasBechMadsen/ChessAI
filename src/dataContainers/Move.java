@@ -1,6 +1,7 @@
-package logic;
+package dataContainers;
 
 import Utility.Position;
+import game.Program;
 import pieces.Piece;
 
 public class Move {
@@ -12,71 +13,36 @@ public class Move {
 	private int Score;
 
 	
-	public Move(Position from, Position to, Piece movingPiece, Piece target){
+	public Move(Position from, Position to){
 		this.from = from;
 		this.to = to;
-		this.movingPiece = movingPiece;
-		this.target = target;
+		if(Program.b.getPieceAt(from.x, from.y) != null){
+			movingPiece = Program.b.getPieceAt(from.x, from.y);
+		}
+		if(Program.b.getPieceAt(to.x, to.y) != null){
+			target = Program.b.getPieceAt(to.x, to.y);
+		}
 	}
 	
 	public Position getFrom() {
 		return from;
 	}
 
-
-
-	public void setFrom(Position from) {
-		this.from = from;
-	}
-
-
-
 	public Position getTo() {
 		return to;
 	}
-
-
-
-	public void setTo(Position to) {
-		this.to = to;
-	}
-
-
 
 	public Piece getMovingPiece() {
 		return movingPiece;
 	}
 
-
-
-	public void setMovingPiece(Piece movingPiece) {
-		this.movingPiece = movingPiece;
-	}
-
-
-
 	public Piece getTarget() {
 		return target;
 	}
 
-
-
-	public void setTarget(Piece target) {
-		this.target = target;
-	}
-
-
-
 	public int getScore() {
 		return Score;
 	}
-
-
-
-	public void setScore(int score) {
-		Score = score;
-	}
-
  
 	public String toString(){
 		String targetString = "";
@@ -86,7 +52,7 @@ public class Move {
 		else{
 			targetString = " which is empty";
 		}
-		return movingPiece.type +" moves from " + from + " to " + to + targetString;
+		return movingPiece.getClass().getSimpleName() +" moves from " + from + " to " + to + targetString;
 	}
 
 }

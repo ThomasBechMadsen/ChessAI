@@ -4,10 +4,8 @@ import java.util.Scanner;
 
 import Utility.BoardPersistence;
 import Utility.Position;
-import algo.AlphaBeta;
-import controller.BoardController;
-import logic.Move;
-import logic.MoveGenerator;
+import dataContainers.Board;
+import dataContainers.Move;
 import pieces.Piece;
 
 public class Program {
@@ -36,13 +34,13 @@ public class Program {
 				e.printStackTrace();
 				return;
 			}
-			bc.printBoard();
+			b.printBoard();
 			playerTurn = !playerTurn;
 		}		
 	}
 
 	static void playHumanVsAI(boolean playerIsWhite){
-		bc.printBoard();
+		b.printBoard();
 		while(!bc.isGameOver()){
 			
 			if(playerTurn == playerIsWhite){
@@ -65,7 +63,7 @@ public class Program {
 					return;
 				}	
 			}
-			bc.printBoard();
+			b.printBoard();
 			playerTurn = !playerTurn;
 		}
 	}
@@ -85,8 +83,7 @@ public class Program {
 		int x2 = xCoord(coords2.charAt(0));
 		int y2 = yCoord(coords2.charAt(1));
 		
-		return new Move(new Position(x1, y1), new Position(x2, y2),
-						b.getPieceAt(x1, y1), b.getPieceAt(x2, y2));
+		return new Move(new Position(x1, y1), new Position(x2, y2));
 	}
 	
 	static int xCoord(char in){
